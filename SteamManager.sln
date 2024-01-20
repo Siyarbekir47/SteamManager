@@ -5,6 +5,11 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamManager", "SteamManager\SteamManager.csproj", "{5759BE66-21CA-46A6-9FFA-869DC1FFF691}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{2D5940A1-D2A2-4494-A580-F1661380375C}"
+	ProjectSection(SolutionItems) = preProject
+		SteamManager\Resources\auge.png = SteamManager\Resources\auge.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

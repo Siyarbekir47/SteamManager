@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 
 /* TODO:
--mask password entry & encrypt before sending to database
+- encrypt before sending to database
 - Allow nicknames for accounts
 - check if database is empty, this causes an error on loadup sometimes if the first line is empty (the following lines will also be empty but trying to access and empty object poses a problem)
 - Check if new user textbox entires are null before adding them to database (will also prevent the previous error from becoming an issue)
@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 */
 namespace SteamManager
 {
+
     public partial class Form1 : Form
     {
 
@@ -46,6 +47,8 @@ namespace SteamManager
             appLocalFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             myAppFolder = Path.Combine(appLocalFolder, "SM");
             fullPath = Path.Combine(myAppFolder, "syspl");
+
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -89,7 +92,7 @@ namespace SteamManager
                 userlist.Add(newuser);
             }
 
-
+            showPasswordButton.BackColor = Color.Red;
 
 
 
@@ -110,6 +113,51 @@ namespace SteamManager
             Process.Start(startInfo);
 
 
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            Console.Write("test");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            if (textBox2.PasswordChar == '*')
+            {
+                // Show the password
+                textBox2.PasswordChar = '\0'; // Setting it to '\0' shows the text
+                showPasswordButton.BackColor = Color.Green;
+            }
+            else
+            {
+                // Mask the password again
+                textBox2.PasswordChar = '*'; // Setting it back to '*' masks the text
+                showPasswordButton.BackColor = Color.Red;
+            }
+
+
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            string gameName = txtGameName.Text.Trim();
+            // Check if the game name is not empty and not already in the list
+            if (!string.IsNullOrEmpty(gameName) && !lstGames.Items.Contains(gameName))
+            {
+                lstGames.Items.Add(gameName);
+                txtGameName.Clear(); // Clear the TextBox after adding the game to the list
+                MessageBox.Show("Speichert momentan noch nichts. WIP");
+            }
+            else
+            {
+                MessageBox.Show("Bitte geben Sie einen gültigen Spielnamen ein oder das Spiel befindet sich bereits in der Liste.");
+            }
+        }
+
+        private void lstGames_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
     }

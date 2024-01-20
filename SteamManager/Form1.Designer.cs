@@ -33,6 +33,10 @@
             textBox2 = new TextBox();
             comboBox1 = new ComboBox();
             button2 = new Button();
+            showPasswordButton = new Button();
+            txtGameName = new TextBox();
+            btnAddGame = new Button();
+            lstGames = new ListBox();
             SuspendLayout();
             // 
             // button1
@@ -57,6 +61,7 @@
             // 
             textBox2.Location = new Point(12, 174);
             textBox2.Name = "textBox2";
+            textBox2.PasswordChar = '*';
             textBox2.Size = new Size(187, 23);
             textBox2.TabIndex = 2;
             // 
@@ -79,16 +84,67 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // showPasswordButton
+            // 
+            showPasswordButton.BackColor = SystemColors.ButtonHighlight;
+            showPasswordButton.BackgroundImageLayout = ImageLayout.Center;
+            showPasswordButton.FlatAppearance.BorderSize = 0;
+            showPasswordButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 128, 128);
+            showPasswordButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 128, 128);
+            showPasswordButton.FlatStyle = FlatStyle.Flat;
+            showPasswordButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            showPasswordButton.Image = Properties.Resources.auge;
+            showPasswordButton.Location = new Point(205, 173);
+            showPasswordButton.Name = "showPasswordButton";
+            showPasswordButton.Size = new Size(37, 23);
+            showPasswordButton.TabIndex = 5;
+            showPasswordButton.UseVisualStyleBackColor = false;
+            showPasswordButton.Click += button3_Click;
+            // 
+            // txtGameName
+            // 
+            txtGameName.Location = new Point(310, 173);
+            txtGameName.Name = "txtGameName";
+            txtGameName.Size = new Size(197, 23);
+            txtGameName.TabIndex = 6;
+            // 
+            // btnAddGame
+            // 
+            btnAddGame.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAddGame.Location = new Point(310, 202);
+            btnAddGame.Name = "btnAddGame";
+            btnAddGame.Size = new Size(197, 61);
+            btnAddGame.TabIndex = 7;
+            btnAddGame.Text = "Add Game";
+            btnAddGame.UseVisualStyleBackColor = true;
+            btnAddGame.Click += button3_Click_1;
+            // 
+            // lstGames
+            // 
+            lstGames.FormattingEnabled = true;
+            lstGames.ItemHeight = 15;
+            lstGames.Location = new Point(569, 47);
+            lstGames.Name = "lstGames";
+            lstGames.Size = new Size(158, 409);
+            lstGames.TabIndex = 8;
+            lstGames.SelectedIndexChanged += lstGames_SelectedIndexChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(519, 383);
+            BackgroundImageLayout = ImageLayout.None;
+            ClientSize = new Size(1184, 490);
+            Controls.Add(lstGames);
+            Controls.Add(btnAddGame);
+            Controls.Add(txtGameName);
+            Controls.Add(showPasswordButton);
             Controls.Add(button2);
             Controls.Add(comboBox1);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(button1);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -103,5 +159,9 @@
         private TextBox textBox2;
         private ComboBox comboBox1;
         private Button button2;
+        private Button showPasswordButton;
+        private TextBox txtGameName;
+        private Button btnAddGame;
+        private ListBox lstGames;
     }
 }
