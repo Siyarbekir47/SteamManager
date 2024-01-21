@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 - encrypt before sending to database
 - Allow nicknames for accounts
 - check if database is empty, this causes an error on loadup sometimes if the first line is empty (the following lines will also be empty but trying to access and empty object poses a problem)
-- Check if new user textbox entires are null before adding them to database (will also prevent the previous error from becoming an issue)
-- Clear textbox text when creating a new database entry
 -logout button(Steam Command: " -logoff ")
+-let me add games to files i already own
 */
 namespace SteamManager
 {
@@ -53,17 +52,35 @@ namespace SteamManager
 
         private void button1_Click(object sender, EventArgs e)
         {
-            List<string> lines = File.ReadAllLines(fullPath).ToList();
-            var User = new user(textBox1.Text, textBox2.Text);
-            userlist.Add(User);
-            lines.Add(User.username + "," + User.password);
-            File.WriteAllLines(fullPath, lines);
 
-            comboBox1.Items.Clear();
-            foreach (user v in userlist)
+
+            if (string.IsNullOrEmpty(textBox1.Text))
             {
-                comboBox1.Items.Add(v.username);
+                MessageBox.Show("Benutzername ist leer.");
             }
+            else if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                MessageBox.Show("Passwort ist leer.");
+            }
+            else
+            {
+                List<string> lines = File.ReadAllLines(fullPath).ToList();
+                var User = new user(textBox1.Text, textBox2.Text);
+                userlist.Add(User);
+                lines.Add(User.username + "," + User.password);
+                File.WriteAllLines(fullPath, lines);
+
+                comboBox1.Items.Clear();
+                foreach (user v in userlist)
+                {
+                    comboBox1.Items.Add(v.username);
+                }
+                textBox1.Clear();
+                textBox2.Clear();
+                MessageBox.Show("Benutzer erfolgreich hinzugefügt.");
+            }
+
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -157,6 +174,11 @@ namespace SteamManager
         }
 
         private void lstGames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }

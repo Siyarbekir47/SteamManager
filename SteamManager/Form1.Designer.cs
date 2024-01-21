@@ -56,6 +56,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(187, 23);
             textBox1.TabIndex = 1;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // textBox2
             // 
@@ -134,7 +135,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(1184, 490);
+            ClientSize = new Size(773, 477);
             Controls.Add(lstGames);
             Controls.Add(btnAddGame);
             Controls.Add(txtGameName);
@@ -146,7 +147,7 @@
             Controls.Add(button1);
             FormBorderStyle = FormBorderStyle.Fixed3D;
             Name = "Form1";
-            Text = "Form1";
+            Text = "Steam Login Manager";
             Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
