@@ -295,6 +295,7 @@ namespace SteamManager
             LoadUserGames();
             if (userGames.ContainsKey(selectedUser))
             {
+                lstGames.Items.Clear();
                 foreach (string game in userGames[selectedUser])
                 {
                     lstGames.Items.Add(game);
@@ -346,7 +347,7 @@ namespace SteamManager
 
         private void deleteGameButton_Click(object sender, EventArgs e)
         {
-            if(lstGames.SelectedIndex != -1)
+            if (lstGames.SelectedIndex != -1)
             {
                 //remove the selected game from list
                 string selectedGame = lstGames.SelectedItem.ToString();
@@ -358,6 +359,30 @@ namespace SteamManager
             {
                 MessageBox.Show("Bitte ein Spiel auswählen zum Löschen.", "Spiel löschen", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+            }
+        }
+
+        private void txtGameName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                button3_Click_1(sender, e);
+            }
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                textBox2.Focus(); 
+            }
+        }
+
+        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                button1_Click(sender, e);
             }
         }
     }

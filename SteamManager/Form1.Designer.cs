@@ -59,6 +59,7 @@
             textBox1.Size = new Size(187, 23);
             textBox1.TabIndex = 1;
             textBox1.TextChanged += textBox1_TextChanged;
+            textBox1.KeyDown += textBox1_KeyDown;
             // 
             // textBox2
             // 
@@ -67,6 +68,7 @@
             textBox2.PasswordChar = '*';
             textBox2.Size = new Size(187, 23);
             textBox2.TabIndex = 2;
+            textBox2.KeyDown += textBox2_KeyDown;
             // 
             // comboBox1
             // 
@@ -111,6 +113,7 @@
             txtGameName.Name = "txtGameName";
             txtGameName.Size = new Size(197, 23);
             txtGameName.TabIndex = 6;
+            txtGameName.KeyDown += txtGameName_KeyDown;
             // 
             // btnAddGame
             // 
