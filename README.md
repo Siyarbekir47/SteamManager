@@ -1,3 +1,3 @@
 First project moving from C++ to C#,
 
-Simple Steam login manager, CAREFUL PW+USERNAME saved in PLAIN for now until i add encryption.
+simple steam logging manager, save user+pw, save games, use encryption for PW and so on.
