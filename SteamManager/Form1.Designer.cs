@@ -38,6 +38,7 @@
             btnAddGame = new Button();
             lstGames = new ListBox();
             deleteUser = new Button();
+            deleteGameButton = new Button();
             SuspendLayout();
             // 
             // button1
@@ -126,11 +127,10 @@
             // 
             lstGames.FormattingEnabled = true;
             lstGames.ItemHeight = 15;
-            lstGames.Location = new Point(569, 47);
+            lstGames.Location = new Point(526, 47);
             lstGames.Name = "lstGames";
             lstGames.Size = new Size(158, 409);
             lstGames.TabIndex = 8;
-            lstGames.SelectedIndexChanged += lstGames_SelectedIndexChanged;
             // 
             // deleteUser
             // 
@@ -142,12 +142,23 @@
             deleteUser.UseVisualStyleBackColor = true;
             deleteUser.Click += deleteUser_Click;
             // 
+            // deleteGameButton
+            // 
+            deleteGameButton.Location = new Point(690, 46);
+            deleteGameButton.Name = "deleteGameButton";
+            deleteGameButton.Size = new Size(75, 23);
+            deleteGameButton.TabIndex = 10;
+            deleteGameButton.Text = "Löschen";
+            deleteGameButton.UseVisualStyleBackColor = true;
+            deleteGameButton.Click += deleteGameButton_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(773, 477);
+            Controls.Add(deleteGameButton);
             Controls.Add(deleteUser);
             Controls.Add(lstGames);
             Controls.Add(btnAddGame);
@@ -178,5 +189,6 @@
         private Button btnAddGame;
         private ListBox lstGames;
         private Button deleteUser;
+        private Button deleteGameButton;
     }
 }

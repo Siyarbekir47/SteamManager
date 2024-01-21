@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 - Allow nicknames for accounts
 - check if database is empty, this causes an error on loadup sometimes if the first line is empty (the following lines will also be empty but trying to access and empty object poses a problem)
 -logout button(Steam Command: " -logoff ")
--let me add games to files i already own
 */
 namespace SteamManager
 {
@@ -22,7 +21,7 @@ namespace SteamManager
         private string myAppFolder;
         private string fullPath;
         private Dictionary<string, List<string>> userGames = new Dictionary<string, List<string>>();
-     struct user
+        struct user
         {
             public user(string user, string pass)
             {
@@ -38,29 +37,70 @@ namespace SteamManager
 
         List<user> userlist = new List<user>();
 
+
+
         private void SaveUserGames()
         {
-            //convert the userGames dictionary to a JSON string
-            string json = JsonConvert.SerializeObject(userGames, Formatting.Indented);
+            if (comboBox1.SelectedIndex != -1)
+            {
+                string selectedUser = comboBox1.SelectedItem.ToString();
+                string gamesFilePath = Path.Combine(myAppFolder, selectedUser + "sysga");
 
-            //write the json string to a file
-            File.WriteAllText(Path.Combine(myAppFolder, "sysga"), json);
+                // Get the current list of games from lstGames
+                List<string> currentGames = lstGames.Items.Cast<string>().ToList();
+
+                // Serialize the list of games to JSON as an array
+                string json = JsonConvert.SerializeObject(currentGames, Formatting.Indented);
+
+                // Write the JSON to the file
+                File.WriteAllText(gamesFilePath, json);
+            }
         }
+
 
         private void LoadUserGames()
         {
-            string filePath = Path.Combine(myAppFolder, "sysga");
-
-            //check if the file exists
-            if (File.Exists(filePath))
+            if (comboBox1.SelectedIndex != -1)
             {
-                //read json string from file
-                string json = File.ReadAllText(filePath);
+                string selectedUser = comboBox1.SelectedItem.ToString();
+                string gamesFilePath = Path.Combine(myAppFolder, selectedUser + "sysga");
 
-                //convert the json string back to a dictornary
-                userGames = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(json);
+                if (File.Exists(gamesFilePath))
+                {
+                    try
+                    {
+                        // Deserialize the JSON data as a List<string>
+                        string json = File.ReadAllText(gamesFilePath);
+                        List<string> loadedGames = JsonConvert.DeserializeObject<List<string>>(json);
+
+                        if (loadedGames != null)
+                        {
+                            // Clear the existing list and add the loaded games to lstGames
+                            lstGames.Items.Clear();
+                            lstGames.Items.AddRange(loadedGames.ToArray());
+                        }
+                        else
+                        {
+                            MessageBox.Show("The games file is empty or contains invalid data.", "Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    catch (JsonException jsonEx)
+                    {
+                        MessageBox.Show("An error occurred while deserializing the games file: " + jsonEx.Message, "JSON Deserialization Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occurred while loading games: " + ex.Message, "General Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    //MessageBox.Show("The games file does not exist for the selected user.", "Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
+
+
         private void SaveUsers()
         {
             // You should encrypt or hash the passwords before saving
@@ -162,7 +202,7 @@ namespace SteamManager
             }
 
 
-            
+
 
             showPasswordButton.BackColor = Color.Red;
 
@@ -190,13 +230,6 @@ namespace SteamManager
             startInfo.Arguments = " -login " + userlist[comboBox1.SelectedIndex].username + " " + userlist[comboBox1.SelectedIndex].password;
             Process.Start(startInfo);
 
-
-
-        }
-
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            Console.Write("test");
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -246,10 +279,8 @@ namespace SteamManager
             }
         }
 
-        private void lstGames_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
+
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -258,9 +289,10 @@ namespace SteamManager
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             string selectedUser = comboBox1.SelectedItem.ToString();
             lstGames.Items.Clear();
-
+            LoadUserGames();
             if (userGames.ContainsKey(selectedUser))
             {
                 foreach (string game in userGames[selectedUser])
@@ -270,9 +302,10 @@ namespace SteamManager
             }
         }
 
+
         private void deleteUser_Click(object sender, EventArgs e)
         {
-            if(comboBox1.SelectedIndex < 0)
+            if (comboBox1.SelectedIndex < 0)
             {
                 MessageBox.Show("Wähle erst einen benutzer aus.");
                 return;
@@ -284,13 +317,13 @@ namespace SteamManager
             //confirmation dialog to make sure the user wants to delete this
             var confirmResult = MessageBox.Show("Sicher das du den Benutzer löschen willst?", "Löschen bestätigen!", MessageBoxButtons.YesNo);
 
-            if(confirmResult == DialogResult.Yes) 
+            if (confirmResult == DialogResult.Yes)
             {
                 //remove user from combobox
                 comboBox1.Items.Remove(selectedUser);
 
                 //remove user from userGames dictinoary
-                if(userGames.ContainsKey(selectedUser))
+                if (userGames.ContainsKey(selectedUser))
                 {
                     userGames.Remove(selectedUser);
                     SaveUserGames(); // update the storage
@@ -298,7 +331,7 @@ namespace SteamManager
 
                 //remove user from userlist and update storage
                 user userToRemove = userlist.First(u => u.username == selectedUser);
-                if(userToRemove.username != null)
+                if (userToRemove.username != null)
                 {
                     userlist.Remove(userToRemove);
                     SaveUsers();
@@ -309,6 +342,23 @@ namespace SteamManager
             }
 
 
+        }
+
+        private void deleteGameButton_Click(object sender, EventArgs e)
+        {
+            if(lstGames.SelectedIndex != -1)
+            {
+                //remove the selected game from list
+                string selectedGame = lstGames.SelectedItem.ToString();
+                lstGames.Items.Remove(selectedGame);
+                SaveUserGames();
+
+            }
+            else
+            {
+                MessageBox.Show("Bitte ein Spiel auswählen zum Löschen.", "Spiel löschen", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
         }
     }
 }
