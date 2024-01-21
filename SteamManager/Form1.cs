@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 /* TODO:
-- encrypt before sending to database
+- add a button to show password for user
 - Allow nicknames for accounts
-- check if database is empty, this causes an error on loadup sometimes if the first line is empty (the following lines will also be empty but trying to access and empty object poses a problem)
 -logout button(Steam Command: " -logoff ")
 */
 namespace SteamManager
@@ -103,6 +102,14 @@ namespace SteamManager
 
         private void SaveUsers()
         {
+            var encryptedUsers = new List<user>();
+            foreach (var user in userlist)
+            {
+                var encryptedUser = new user(user.username, CryptoUtility.EncryptString(user.password));
+                encryptedUsers.Add(encryptedUser);
+            }
+            userlist = encryptedUsers; // Replace the old list with the new one
+
             // You should encrypt or hash the passwords before saving
             string json = JsonConvert.SerializeObject(userlist, Formatting.Indented);
             File.WriteAllText(Path.Combine(myAppFolder, "sysus.json"), json);
@@ -235,7 +242,7 @@ namespace SteamManager
             ProcessStartInfo startInfo = new ProcessStartInfo();
 
             startInfo.FileName = (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam", "SteamExe", "null");
-            startInfo.Arguments = " -login " + userlist[comboBox1.SelectedIndex].username + " " + userlist[comboBox1.SelectedIndex].password;
+            startInfo.Arguments = " -login " + userlist[comboBox1.SelectedIndex].username + " " + CryptoUtility.DecryptString(userlist[comboBox1.SelectedIndex].password);
             Process.Start(startInfo);
 
         }
