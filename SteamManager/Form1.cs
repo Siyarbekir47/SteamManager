@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 
 /* TODO:
 - Allow nicknames for accounts
--logout button(Steam Command: " -logoff ")
 */
 namespace SteamManager
 {
@@ -21,15 +20,16 @@ namespace SteamManager
         private Dictionary<string, List<string>> userGames = new Dictionary<string, List<string>>();
         struct user
         {
-            public user(string user, string pass)
+            public user(string user, string pass, bool isPasswordEncrypted)
             {
                 username = user;
                 password = pass;
+                this.isPasswordEncrypted = isPasswordEncrypted;
             }
 
             public string username { get; set; }
             public string password { get; set; }
-
+            public bool isPasswordEncrypted { get; set; }
 
         }
 
@@ -101,18 +101,20 @@ namespace SteamManager
 
         private void SaveUsers()
         {
-            var encryptedUsers = new List<user>();
-            foreach (var user in userlist)
+            for (int i = 0; i < userlist.Count; i++)
             {
-                var encryptedUser = new user(user.username, CryptoUtility.EncryptString(user.password));
-                encryptedUsers.Add(encryptedUser);
+                if (!userlist[i].isPasswordEncrypted)
+                {
+                    // Encrypt only if the password isn't already encrypted
+                    var encryptedUser = new user(userlist[i].username, CryptoUtility.EncryptString(userlist[i].password), true);
+                    userlist[i] = encryptedUser; // Replace the old user struct with the new one
+                }
             }
-            userlist = encryptedUsers; // Replace the old list with the new one
-
-            // You should encrypt or hash the passwords before saving
+            // Now serialize and save the user list
             string json = JsonConvert.SerializeObject(userlist, Formatting.Indented);
             File.WriteAllText(Path.Combine(myAppFolder, "sysus.json"), json);
         }
+
 
 
         private void LoadUsers()
@@ -181,7 +183,7 @@ namespace SteamManager
             }
             else
             {
-                var newUser = new user(textBox1.Text, textBox2.Text);
+                var newUser = new user(textBox1.Text, textBox2.Text, false);
                 userlist.Add(newUser);
 
                 SaveUsers(); // This will update the storage with the new user list.
