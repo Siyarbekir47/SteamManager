@@ -219,6 +219,14 @@ namespace SteamManager
 
         private void button2_Click(object sender, EventArgs e)
         {
+
+            if(comboBox1.SelectedItem == null)
+            {
+                MessageBox.Show("Wähle erst einen Bentzer!");
+                return;
+            }
+            
+            
             foreach (var process in Process.GetProcessesByName("steam"))
             {
                 process.Kill();
