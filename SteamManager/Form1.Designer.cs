@@ -45,6 +45,8 @@
             userListLabel = new Label();
             gameNameLabel = new Label();
             listGameLabel = new Label();
+            btnShowPassword = new Button();
+            btnCopyPassword = new Button();
             SuspendLayout();
             // 
             // button1
@@ -91,7 +93,7 @@
             // 
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Algerian", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(310, 81);
+            button2.Location = new Point(310, 138);
             button2.Name = "button2";
             button2.Size = new Size(197, 65);
             button2.TabIndex = 4;
@@ -118,7 +120,7 @@
             // 
             // txtGameName
             // 
-            txtGameName.Location = new Point(310, 185);
+            txtGameName.Location = new Point(310, 253);
             txtGameName.Name = "txtGameName";
             txtGameName.Size = new Size(197, 27);
             txtGameName.TabIndex = 6;
@@ -128,7 +130,7 @@
             // 
             btnAddGame.FlatStyle = FlatStyle.Flat;
             btnAddGame.Font = new Font("Algerian", 20.25F, FontStyle.Bold);
-            btnAddGame.Location = new Point(310, 215);
+            btnAddGame.Location = new Point(310, 283);
             btnAddGame.Name = "btnAddGame";
             btnAddGame.Size = new Size(197, 65);
             btnAddGame.TabIndex = 7;
@@ -149,9 +151,10 @@
             // deleteUser
             // 
             deleteUser.FlatStyle = FlatStyle.Flat;
-            deleteUser.Location = new Point(229, 50);
+            deleteUser.Font = new Font("Yu Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            deleteUser.Location = new Point(409, 22);
             deleteUser.Name = "deleteUser";
-            deleteUser.Size = new Size(75, 25);
+            deleteUser.Size = new Size(98, 25);
             deleteUser.TabIndex = 9;
             deleteUser.Text = "Löschen";
             deleteUser.UseVisualStyleBackColor = true;
@@ -198,7 +201,7 @@
             // gameNameLabel
             // 
             gameNameLabel.AutoSize = true;
-            gameNameLabel.Location = new Point(310, 167);
+            gameNameLabel.Location = new Point(310, 235);
             gameNameLabel.Name = "gameNameLabel";
             gameNameLabel.Size = new Size(69, 16);
             gameNameLabel.TabIndex = 14;
@@ -213,12 +216,38 @@
             listGameLabel.TabIndex = 15;
             listGameLabel.Text = "Spieleliste: ";
             // 
+            // btnShowPassword
+            // 
+            btnShowPassword.FlatStyle = FlatStyle.Flat;
+            btnShowPassword.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnShowPassword.Location = new Point(409, 87);
+            btnShowPassword.Name = "btnShowPassword";
+            btnShowPassword.Size = new Size(98, 45);
+            btnShowPassword.TabIndex = 16;
+            btnShowPassword.Text = "Passwort Anzeigen";
+            btnShowPassword.UseVisualStyleBackColor = true;
+            btnShowPassword.Click += btnShowPassword_Click;
+            // 
+            // btnCopyPassword
+            // 
+            btnCopyPassword.FlatStyle = FlatStyle.Flat;
+            btnCopyPassword.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCopyPassword.Location = new Point(310, 87);
+            btnCopyPassword.Name = "btnCopyPassword";
+            btnCopyPassword.Size = new Size(98, 45);
+            btnCopyPassword.TabIndex = 17;
+            btnCopyPassword.Text = "Passwort Kopieren";
+            btnCopyPassword.UseVisualStyleBackColor = true;
+            btnCopyPassword.Click += btnCopyPassword_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(773, 509);
+            Controls.Add(btnCopyPassword);
+            Controls.Add(btnShowPassword);
             Controls.Add(listGameLabel);
             Controls.Add(gameNameLabel);
             Controls.Add(userListLabel);
@@ -263,5 +292,7 @@
         private Label userListLabel;
         private Label gameNameLabel;
         private Label listGameLabel;
+        private Button btnShowPassword;
+        private Button btnCopyPassword;
     }
 }

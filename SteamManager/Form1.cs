@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 /* TODO:
-- add a button to show password for user
 - Allow nicknames for accounts
 -logout button(Steam Command: " -logoff ")
 */
@@ -227,13 +226,13 @@ namespace SteamManager
         private void button2_Click(object sender, EventArgs e)
         {
 
-            if(comboBox1.SelectedItem == null)
+            if (comboBox1.SelectedItem == null)
             {
                 MessageBox.Show("Wähle erst einen Bentzer!");
                 return;
             }
-            
-            
+
+
             foreach (var process in Process.GetProcessesByName("steam"))
             {
                 process.Kill();
@@ -389,7 +388,7 @@ namespace SteamManager
         {
             if (e.KeyCode == Keys.Enter)
             {
-                textBox2.Focus(); 
+                textBox2.Focus();
             }
         }
 
@@ -400,5 +399,63 @@ namespace SteamManager
                 button1_Click(sender, e);
             }
         }
+
+        private void btnShowPassword_Click(object sender, EventArgs e)
+        {
+            // Make sure a user is selected
+            if (comboBox1.SelectedIndex == -1)
+            {
+                MessageBox.Show("Bitte wähle zuerst einen Benutzernamen.");
+                return;
+            }
+
+            string selectedUser = comboBox1.SelectedItem.ToString();
+
+            // Find the user object
+            user? userToShow = userlist.FirstOrDefault(u => u.username == selectedUser);
+
+            if (userToShow.HasValue)
+            {
+                // Decrypt the password and show it
+                string decryptedPassword = CryptoUtility.DecryptString(userToShow.Value.password);
+
+                MessageBox.Show("Passwort für " + selectedUser + " ist: " + decryptedPassword, "Passwort", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("User not found.");
+                return;
+            }
+        }
+
+        private void btnCopyPassword_Click(object sender, EventArgs e)
+        {
+            // Make sure a user is selected
+            if (comboBox1.SelectedIndex == -1)
+            {
+                MessageBox.Show("Bitte wähle zuerst einen Benutzernamen.");
+                return;
+            }
+
+            string selectedUser = comboBox1.SelectedItem.ToString();
+
+            // Find the user object
+            user? userToShow = userlist.FirstOrDefault(u => u.username == selectedUser);
+
+            if (userToShow.HasValue)
+            {
+                // Decrypt the password and copy it
+                string decryptedPassword = CryptoUtility.DecryptString(userToShow.Value.password);
+                Clipboard.SetText(decryptedPassword);
+                MessageBox.Show("In den Clipboard kopiert, STRG+V zum einfügen.");
+            }
+            else
+            {
+                MessageBox.Show("User not found.");
+                return;
+            }
+        }
+
+
     }
 }
