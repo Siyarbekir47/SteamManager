@@ -37,6 +37,7 @@
             txtGameName = new TextBox();
             btnAddGame = new Button();
             lstGames = new ListBox();
+            deleteUser = new Button();
             SuspendLayout();
             // 
             // button1
@@ -73,6 +74,7 @@
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(197, 23);
             comboBox1.TabIndex = 3;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // button2
             // 
@@ -130,12 +132,23 @@
             lstGames.TabIndex = 8;
             lstGames.SelectedIndexChanged += lstGames_SelectedIndexChanged;
             // 
+            // deleteUser
+            // 
+            deleteUser.Location = new Point(229, 47);
+            deleteUser.Name = "deleteUser";
+            deleteUser.Size = new Size(75, 23);
+            deleteUser.TabIndex = 9;
+            deleteUser.Text = "Löschen";
+            deleteUser.UseVisualStyleBackColor = true;
+            deleteUser.Click += deleteUser_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(773, 477);
+            Controls.Add(deleteUser);
             Controls.Add(lstGames);
             Controls.Add(btnAddGame);
             Controls.Add(txtGameName);
@@ -164,5 +177,6 @@
         private TextBox txtGameName;
         private Button btnAddGame;
         private ListBox lstGames;
+        private Button deleteUser;
     }
 }
