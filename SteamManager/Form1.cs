@@ -21,20 +21,23 @@ namespace SteamManager
         private string appLocalFolder;
         private string myAppFolder;
         private string fullPath;
-        private string apiKey = "Your_API_Key";
+        private string apiKey = "EDF2C147BDAEAD8453FB0FAA92E657E8";
         private Dictionary<string, List<string>> userGames = new Dictionary<string, List<string>>();
 
         struct user
         {
-            public user(string user, string pass, bool isPasswordEncrypted)
+            public user(string user, string pass, bool isPasswordEncrypted, string steamid)
             {
                 username = user;
                 password = pass;
+                steamID64 = steamid;
                 this.isPasswordEncrypted = isPasswordEncrypted;
             }
 
             public string username { get; set; }
             public string password { get; set; }
+            public string steamID64 { get; set; }
+
             public bool isPasswordEncrypted { get; set; }
 
         }
@@ -66,28 +69,15 @@ namespace SteamManager
 
             [JsonProperty("ProfileIcon")]
             public string ProfileIcon { get; set; }
+
+            [JsonProperty("SteamID64")]
+            public string SteamID64 { get; set; }
         }
 
 
 
 
-        private void SaveUserGames()
-        {
-            if (comboBox1.SelectedIndex != -1)
-            {
-                string selectedUser = comboBox1.SelectedItem.ToString();
-                string gamesFilePath = Path.Combine(myAppFolder, selectedUser + "sysga");
 
-                // Get the current list of games from lstGames
-                List<string> currentGames = lstGames.Items.Cast<string>().ToList();
-
-                // Serialize the list of games to JSON as an array
-                string json = JsonConvert.SerializeObject(currentGames, Formatting.Indented);
-
-                // Write the JSON to the file
-                File.WriteAllText(gamesFilePath, json);
-            }
-        }
 
 
         private void LoadUserGames()
@@ -95,7 +85,15 @@ namespace SteamManager
             if (comboBox1.SelectedIndex != -1)
             {
                 string selectedUser = comboBox1.SelectedItem.ToString();
-                string gamesFilePath = Path.Combine(myAppFolder, selectedUser + "sysga");
+                for (int i = 0; i < userlist.Count; i++)
+                {
+                    if (userlist[i].username == selectedUser)
+                    {
+                        selectedUser = userlist[i].steamID64;
+                        break;
+                    }
+                }
+                string gamesFilePath = Path.Combine(myAppFolder, selectedUser + "Gi.json");
 
                 if (File.Exists(gamesFilePath))
                 {
@@ -103,13 +101,16 @@ namespace SteamManager
                     {
                         // Deserialize the JSON data as a List<string>
                         string json = File.ReadAllText(gamesFilePath);
-                        List<string> loadedGames = JsonConvert.DeserializeObject<List<string>>(json);
+                        List<GameInfo> loadedGames = JsonConvert.DeserializeObject<List<GameInfo>>(json);
 
                         if (loadedGames != null)
                         {
                             // Clear the existing list and add the loaded games to lstGames
                             lstGames.Items.Clear();
-                            lstGames.Items.AddRange(loadedGames.ToArray());
+                            foreach (var game in loadedGames)
+                            {
+                                lstGames.Items.Add(game.Name);
+                            }
                         }
                         else
                         {
@@ -137,7 +138,7 @@ namespace SteamManager
         private void LoadUsersGames(string steamid64)
         {
             string gamesFilePath = Path.Combine(myAppFolder, steamid64 + "Gi.json");
-            if(File.Exists(gamesFilePath))
+            if (File.Exists(gamesFilePath))
             {
 
                 try
@@ -148,14 +149,13 @@ namespace SteamManager
                     if (loadedGames != null)
                     {
                         // Clear the existing list and add the loaded games to lstGames
-                        listGames.Items.Clear();
-                        loadedGames.ForEach(loadedGames => listGames.Items.Add(loadedGames.Name));
+                        lstGames.Items.Clear();
+                        loadedGames.ForEach(loadedGames => lstGames.Items.Add(loadedGames.Name));
                     }
                     else
                     {
                         MessageBox.Show("The games file is empty or contains invalid data.", "Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    loadedGames.ForEach(loadedGames => listGames.Items.Add(loadedGames.Name));
 
                 }
                 catch (JsonException jsonEx)
@@ -177,7 +177,7 @@ namespace SteamManager
                 if (!userlist[i].isPasswordEncrypted)
                 {
                     // Encrypt only if the password isn't already encrypted
-                    var encryptedUser = new user(userlist[i].username, CryptoUtility.EncryptString(userlist[i].password), true);
+                    var encryptedUser = new user(userlist[i].username, CryptoUtility.EncryptString(userlist[i].password), true, null);
                     userlist[i] = encryptedUser; // Replace the old user struct with the new one
                 }
             }
@@ -254,7 +254,7 @@ namespace SteamManager
             }
             else
             {
-                var newUser = new user(textBox1.Text, textBox2.Text, false);
+                var newUser = new user(textBox1.Text, textBox2.Text, false, null);
                 userlist.Add(newUser);
 
                 SaveUsers(); // This will update the storage with the new user list.
@@ -331,33 +331,7 @@ namespace SteamManager
 
         }
 
-        private void button3_Click_1(object sender, EventArgs e)
-        {
-            if (comboBox1.SelectedItem == null)
-            {
-                MessageBox.Show("Wähle zuerst ein Benutzer aus.");
-                return;
-            }
-            string selectedUser = comboBox1.SelectedItem.ToString();
-            string gameName = txtGameName.Text.Trim();
 
-            if (!string.IsNullOrEmpty(gameName) && !lstGames.Items.Contains(gameName))
-            {
-                if (!userGames.ContainsKey(selectedUser))
-                {
-                    userGames[selectedUser] = new List<string>();
-                }
-
-                userGames[selectedUser].Add(gameName);
-                lstGames.Items.Add(gameName);
-                SaveUserGames();  // You need to implement this method to save the updated games list.
-                txtGameName.Clear();
-            }
-            else
-            {
-                MessageBox.Show("Please enter a valid game name.");
-            }
-        }
 
 
 
@@ -407,7 +381,6 @@ namespace SteamManager
                 if (userGames.ContainsKey(selectedUser))
                 {
                     userGames.Remove(selectedUser);
-                    SaveUserGames(); // update the storage
                 }
 
                 //remove user from userlist and update storage
@@ -425,30 +398,6 @@ namespace SteamManager
 
         }
 
-        private void deleteGameButton_Click(object sender, EventArgs e)
-        {
-            if (lstGames.SelectedIndex != -1)
-            {
-                //remove the selected game from list
-                string selectedGame = lstGames.SelectedItem.ToString();
-                lstGames.Items.Remove(selectedGame);
-                SaveUserGames();
-
-            }
-            else
-            {
-                MessageBox.Show("Bitte ein Spiel auswählen zum Löschen.", "Spiel löschen", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            }
-        }
-
-        private void txtGameName_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                button3_Click_1(sender, e);
-            }
-        }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -560,7 +509,7 @@ namespace SteamManager
                     {
                         File.Delete(gamesFilePath);
                     }
-                   
+
 
                     MessageBox.Show("Spiele gefunden.");
                     // Serialize the list of games to JSON as an array
@@ -572,8 +521,13 @@ namespace SteamManager
                 }
                 else
                 {
-                    MessageBox.Show("Keine Spiele gefunden.");
-                    return null;
+                    lstGames.Items.Clear();
+                    MessageBox.Show(@"  -Keine Spiele gefunden.-
+1. Stelle sicher das dein Profil Öffentlich ist.
+2. Stelle sicher das die Spieldetails auf Öffentlich ist.
+            (Diese einstellung findest du unter:)
+(->Profil bearbeiten->Datenschutzeinstellungen-> Spieldetails)");
+
                 }
 
 
@@ -583,6 +537,7 @@ namespace SteamManager
 
                 var account = accountJsonData["response"]["players"].Select(account => new
                 {
+                    SteamID64 = account["steamid"].ToString(),
                     Nickname = account["personaname"].ToString(),
                     ProfileLink = account["profileurl"].ToString(),
                     ProfileIcon = account["avatarfull"].ToString()
@@ -615,28 +570,42 @@ namespace SteamManager
 
         private void feetchGamesButton_Click(object sender, EventArgs e)
         {
-
+            if (comboBox1.SelectedItem == null)
+            {
+                MessageBox.Show("Wähle zuerst einen Benutzer aus.");
+                return;
+            }
             string SteamID64 = SteamData.GetCurrentSteamID64();
 
-            if(SteamID64 != null)
+            if (SteamID64 != null)
             {
                 Clipboard.SetText(SteamID64);
                 GetSteamBib(SteamID64);
                 LoadUsersGames(SteamID64);
+
+                for (int i = 0; i < userlist.Count; i++)
+                {
+
+                    if (userlist[i].username == comboBox1.SelectedItem.ToString())
+                    {
+                        user newUser = userlist[i];
+                        newUser.steamID64 = SteamID64;
+                        userlist[i] = newUser; // Replace the old struct with the new one
+                        string json = JsonConvert.SerializeObject(userlist, Formatting.Indented);
+                        File.WriteAllText(Path.Combine(myAppFolder, "sysus.json"), json);
+                        break;
+                    }
+                }
+
             }
             else
             {
                 return;
             }
 
-
-
-
-
-
         }
 
-        private void listGames_SelectedIndexChanged(object sender, EventArgs e)
+        private void lstGames_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
