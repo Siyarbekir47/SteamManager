@@ -70,6 +70,7 @@
             showPasswordButton.Size = new Size(25, 17);
             showPasswordButton.TabIndex = 16;
             showPasswordButton.UseVisualStyleBackColor = false;
+            showPasswordButton.Click += showPasswordButton_Click;
             // 
             // textBox2
             // 
@@ -78,6 +79,7 @@
             textBox2.PasswordChar = '*';
             textBox2.Size = new Size(187, 23);
             textBox2.TabIndex = 15;
+            textBox2.KeyDown += textBox2_KeyDown;
             // 
             // textBox1
             // 
@@ -85,6 +87,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(187, 23);
             textBox1.TabIndex = 14;
+            textBox1.KeyDown += textBox1_KeyDown_1;
             // 
             // button1
             // 
@@ -102,7 +105,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(336, 335);
+            ClientSize = new Size(261, 209);
             Controls.Add(passLabel);
             Controls.Add(userLabel);
             Controls.Add(showPasswordButton);
@@ -112,6 +115,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddUserForm";
             Text = "Benutzer Hinzufügen";
+            Load += AddUserForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -122,7 +126,7 @@
         private Label userLabel;
         private Button showPasswordButton;
         private TextBox textBox2;
-        private TextBox textBox1;
         private Button button1;
+        private TextBox textBox1;
     }
 }

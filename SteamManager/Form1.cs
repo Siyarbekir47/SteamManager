@@ -15,23 +15,21 @@ namespace SteamManager
 {
 
 
-
-
-
-
-
-
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
 
 
         private string appLocalFolder;
         private string myAppFolder;
         private string fullPath;
+        private string myResourcesFolder;
         private string apiKey = "EDF2C147BDAEAD8453FB0FAA92E657E8";
         private Dictionary<string, List<string>> userGames = new Dictionary<string, List<string>>();
 
-        struct user
+
+
+
+        public struct user
         {
             public user(string user, string pass, bool isPasswordEncrypted, string steamid)
             {
@@ -48,6 +46,7 @@ namespace SteamManager
             public bool isPasswordEncrypted { get; set; }
 
         }
+
 
         List<user> userlist = new List<user>();
 
@@ -82,7 +81,22 @@ namespace SteamManager
         }
 
 
+        public void AddNewUser(string user, string pass)
+        {
+            var newUser = new user(user, pass, false, null);
+            userlist.Add(newUser);
 
+            SaveUsers(); // This will update the storage with the new user list.
+
+            comboBox1.Items.Clear();
+            foreach (user u in userlist)
+            {
+                comboBox1.Items.Add(u.username);
+            }
+
+            MessageBox.Show("Benutzer erfolgreich hinzugefügt.");
+
+        }
 
 
 
@@ -113,10 +127,32 @@ namespace SteamManager
                         if (loadedGames != null)
                         {
                             // Clear the existing list and add the loaded games to lstGames
-                            lstGames.Items.Clear();
+                            lstvGames.Items.Clear();
+                            imgIcons.Images.Clear();
                             foreach (var game in loadedGames)
                             {
-                                lstGames.Items.Add(game.Name);
+
+                                string iconPath = Path.Combine(myResourcesFolder, game.AppID + ".jpg");
+
+                                // Check if the icon file exists, if not use the default icon
+                                if (!File.Exists(iconPath))
+                                {
+                                    iconPath = Path.Combine(myResourcesFolder, "0.jpg"); // Path to your default icon
+                                }
+
+                                // Load the image from the iconPath
+                                Image img = Image.FromFile(iconPath);
+
+                                // Add the image to the ImageList
+                                imgIcons.Images.Add(img);
+
+                                // Create a ListViewItem with the game name and assign the image index
+                                ListViewItem item = new ListViewItem(game.Name, imgIcons.Images.Count - 1);
+
+                                // Add the item to the ListView
+                                lstvGames.Items.Add(item);
+                                item.Tag = game.AppID; // Store the AppID in the Tag property
+
                             }
                         }
                         else
@@ -156,8 +192,9 @@ namespace SteamManager
                     if (loadedGames != null)
                     {
                         // Clear the existing list and add the loaded games to lstGames
-                        lstGames.Items.Clear();
-                        loadedGames.ForEach(loadedGames => lstGames.Items.Add(loadedGames.Name));
+                        lstvGames.Items.Clear();
+                        loadedGames.ForEach(loadedGames => lstvGames.Items.Add(loadedGames.Name));
+                        LoadUserGames();
                     }
                     else
                     {
@@ -238,45 +275,19 @@ namespace SteamManager
 
 
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             appLocalFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             myAppFolder = Path.Combine(appLocalFolder, "SM");
+            myResourcesFolder = Path.Combine(myAppFolder, "Resources");
             fullPath = Path.Combine(myAppFolder, "syspl");
 
 
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(textBox1.Text))
-            {
-                MessageBox.Show("Benutzername ist leer.");
-            }
-            else if (string.IsNullOrEmpty(textBox2.Text))
-            {
-                MessageBox.Show("Passwort ist leer.");
-            }
-            else
-            {
-                var newUser = new user(textBox1.Text, textBox2.Text, false, null);
-                userlist.Add(newUser);
 
-                SaveUsers(); // This will update the storage with the new user list.
-
-                comboBox1.Items.Clear();
-                foreach (user u in userlist)
-                {
-                    comboBox1.Items.Add(u.username);
-                }
-
-                textBox1.Clear();
-                textBox2.Clear();
-                MessageBox.Show("Benutzer erfolgreich hinzugefügt.");
-            }
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -286,8 +297,10 @@ namespace SteamManager
             {
                 Directory.CreateDirectory(myAppFolder);
             }
-            showPasswordButton.BackColor = Color.Red;
-
+            if (!Directory.Exists(myResourcesFolder))
+            {
+                Directory.CreateDirectory(myResourcesFolder);
+            }
 
             LoadUsers();
             LoadUserGames();
@@ -319,24 +332,7 @@ namespace SteamManager
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
 
-            if (textBox2.PasswordChar == '*')
-            {
-                // Show the password
-                textBox2.PasswordChar = '\0'; // Setting it to '\0' shows the text
-                showPasswordButton.BackColor = Color.Green;
-            }
-            else
-            {
-                // Mask the password again
-                textBox2.PasswordChar = '*'; // Setting it back to '*' masks the text
-                showPasswordButton.BackColor = Color.Red;
-            }
-
-
-        }
 
 
 
@@ -352,14 +348,14 @@ namespace SteamManager
         {
 
             string selectedUser = comboBox1.SelectedItem.ToString();
-            lstGames.Items.Clear();
+            lstvGames.Items.Clear();
             LoadUserGames();
             if (userGames.ContainsKey(selectedUser))
             {
-                lstGames.Items.Clear();
+                lstvGames.Items.Clear();
                 foreach (string game in userGames[selectedUser])
                 {
-                    lstGames.Items.Add(game);
+                    lstvGames.Items.Add(game);
                 }
             }
         }
@@ -398,7 +394,7 @@ namespace SteamManager
                     SaveUsers();
 
                 }
-                lstGames.Items.Clear();
+                lstvGames.Items.Clear();
 
             }
 
@@ -406,21 +402,7 @@ namespace SteamManager
         }
 
 
-        private void textBox1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                textBox2.Focus();
-            }
-        }
 
-        private void textBox2_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                button1_Click(sender, e);
-            }
-        }
 
         private void btnShowPassword_Click(object sender, EventArgs e)
         {
@@ -484,6 +466,7 @@ namespace SteamManager
         {
             string urlGames = $"http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={apiKey}&steamid={steamid64}&format=json&include_appinfo=1";
             string urlAccount = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={apiKey}&format=json&steamids={steamid64}";
+            string urlProfile = $"https://steamcommunity.com/profiles/{steamid64}";
             if (steamid64 == null)
             {
                 MessageBox.Show("Keine SteamID64 gefunden.");
@@ -520,6 +503,36 @@ namespace SteamManager
 
                     MessageBox.Show("Spiele gefunden.");
                     // Serialize the list of games to JSON as an array
+
+
+
+                    // download the image of the game icons for every appid found in the gameArray
+                    foreach (var img in games)
+                    {
+                        string tempFilePath = Path.Combine(myResourcesFolder, img.AppID + ".jpg");
+                        if (!File.Exists(tempFilePath))
+                        {
+                            string urlGameIcon = $"https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/{img.AppID}/{img.IconURL}.jpg";
+                            using (var client2 = new HttpClient())
+                            {
+
+                                var response = await client2.GetAsync(urlGameIcon);
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    using (var stream = await response.Content.ReadAsStreamAsync())
+                                    using (var fileStream = new FileStream(tempFilePath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
+                                    {
+                                        await stream.CopyToAsync(fileStream);
+                                    }
+                                }
+
+
+
+                            }
+                        }
+                    }
+
+
                     string json = JsonConvert.SerializeObject(games, Formatting.Indented);
 
 
@@ -528,7 +541,7 @@ namespace SteamManager
                 }
                 else
                 {
-                    lstGames.Items.Clear();
+                    lstvGames.Items.Clear();
                     MessageBox.Show(@"  -Keine Spiele gefunden.-
 1. Stelle sicher das dein Profil Öffentlich ist.
 2. Stelle sicher das die Spieldetails auf Öffentlich ist.
@@ -574,6 +587,11 @@ namespace SteamManager
             }
         }
 
+        void Log(string message)
+        {
+            // Log the message to a file or output window
+            Debug.WriteLine(message); // For example
+        }
 
         private void feetchGamesButton_Click(object sender, EventArgs e)
         {
@@ -614,24 +632,69 @@ namespace SteamManager
 
 
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void addUserButton_Click(object sender, EventArgs e)
         {
-            AddUserForm first = new AddUserForm();
-            first.Show();
+            using (var addUserForm = new AddUserForm(this))
+            {
+                addUserForm.ShowDialog();
+            }
+        }
 
+        private void lstGames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lstvGames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lstvGames_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonStartGame_Click(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem == null)
+            {
+                MessageBox.Show("Wähle erst einen Benutzer!");
+                return;
+            }
+
+            // Kill any running Steam processes
+            foreach (var process in Process.GetProcessesByName("steam"))
+            {
+                process.Kill();
+            }
+
+            // Prepare the process start info
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = (string)Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Valve\Steam", "SteamExe", "null");
+            string username = userlist[comboBox1.SelectedIndex].username;
+            string decryptedPassword = CryptoUtility.DecryptString(userlist[comboBox1.SelectedIndex].password);
+
+            // Add login arguments
+            startInfo.Arguments = $"-login {username} {decryptedPassword}";
+
+            // Check if a game is selected in listvGames and append its AppID to the arguments
+            if (lstvGames.SelectedItems.Count > 0)
+            {
+                string selectedGameAppID = lstvGames.SelectedItems[0].Tag.ToString(); // Assuming the Tag property holds the AppID
+                startInfo.Arguments += $" -applaunch {selectedGameAppID}";
+            }
+
+            // Start Steam with the arguments
+            Process.Start(startInfo);
         }
     }
 
-
-
-
-
-
-
-    public partial class AddUserForm : Form
-    {
-
-    }
 }
 //https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/555160/d537afd8696affb4b2294aed07be5e13bcfc5d87.jpg
 //http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=EDF2C147BDAEAD8453FB0FAA92E657E8&steamid=76561198399121690&format=json&include_appinfo=1

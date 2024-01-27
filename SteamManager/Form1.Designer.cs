@@ -1,6 +1,6 @@
 ﻿namespace SteamManager
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,64 +29,27 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            button1 = new Button();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             comboBox1 = new ComboBox();
             button2 = new Button();
-            showPasswordButton = new Button();
-            lstGames = new ListBox();
             deleteUser = new Button();
-            userLabel = new Label();
-            passLabel = new Label();
             userListLabel = new Label();
             listGameLabel = new Label();
             btnShowPassword = new Button();
             btnCopyPassword = new Button();
             feetchGamesButton = new Button();
             imgIcons = new ImageList(components);
-            menuStrip1 = new MenuStrip();
-            toolStripMenuItem2 = new ToolStripMenuItem();
-            toolStripMenuItem1 = new ToolStripMenuItem();
-            menuStrip1.SuspendLayout();
+            addUserButton = new Button();
+            lstvGames = new ListView();
+            columnGame = new ColumnHeader();
+            buttonStartGame = new Button();
             SuspendLayout();
-            // 
-            // button1
-            // 
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Algerian", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(12, 147);
-            button1.Name = "button1";
-            button1.Size = new Size(187, 65);
-            button1.TabIndex = 0;
-            button1.Text = "Benutzer hinzufügen";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(12, 65);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(187, 27);
-            textBox1.TabIndex = 1;
-            textBox1.TextChanged += textBox1_TextChanged;
-            textBox1.KeyDown += textBox1_KeyDown;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(12, 114);
-            textBox2.Name = "textBox2";
-            textBox2.PasswordChar = '*';
-            textBox2.Size = new Size(187, 27);
-            textBox2.TabIndex = 2;
-            textBox2.KeyDown += textBox2_KeyDown;
             // 
             // comboBox1
             // 
             comboBox1.Font = new Font("Yu Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(477, 164);
+            comboBox1.Location = new Point(480, 36);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(197, 33);
             comboBox1.TabIndex = 3;
@@ -94,9 +57,10 @@
             // 
             // button2
             // 
+            button2.BackgroundImage = Properties.Resources.icon;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Algerian", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(477, 252);
+            button2.Location = new Point(480, 246);
             button2.Name = "button2";
             button2.Size = new Size(197, 65);
             button2.TabIndex = 4;
@@ -104,86 +68,47 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
-            // showPasswordButton
-            // 
-            showPasswordButton.BackColor = SystemColors.ButtonHighlight;
-            showPasswordButton.BackgroundImageLayout = ImageLayout.Center;
-            showPasswordButton.FlatAppearance.BorderSize = 0;
-            showPasswordButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 128, 128);
-            showPasswordButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 128, 128);
-            showPasswordButton.FlatStyle = FlatStyle.Flat;
-            showPasswordButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            showPasswordButton.Image = Properties.Resources.auge;
-            showPasswordButton.Location = new Point(205, 124);
-            showPasswordButton.Name = "showPasswordButton";
-            showPasswordButton.Size = new Size(25, 17);
-            showPasswordButton.TabIndex = 5;
-            showPasswordButton.UseVisualStyleBackColor = false;
-            showPasswordButton.Click += button3_Click;
-            // 
-            // lstGames
-            // 
-            lstGames.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lstGames.FormattingEnabled = true;
-            lstGames.ItemHeight = 17;
-            lstGames.Location = new Point(832, 55);
-            lstGames.Name = "lstGames";
-            lstGames.Size = new Size(348, 701);
-            lstGames.TabIndex = 8;
-            // 
             // deleteUser
             // 
+            deleteUser.BackgroundImage = Properties.Resources.icon;
             deleteUser.FlatStyle = FlatStyle.Flat;
             deleteUser.Font = new Font("Yu Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            deleteUser.Location = new Point(373, 172);
+            deleteUser.Location = new Point(480, 75);
             deleteUser.Name = "deleteUser";
-            deleteUser.Size = new Size(98, 25);
+            deleteUser.Size = new Size(98, 43);
             deleteUser.TabIndex = 9;
             deleteUser.Text = "Löschen";
             deleteUser.UseVisualStyleBackColor = true;
             deleteUser.Click += deleteUser_Click;
             // 
-            // userLabel
-            // 
-            userLabel.AutoSize = true;
-            userLabel.Location = new Point(12, 46);
-            userLabel.Name = "userLabel";
-            userLabel.Size = new Size(91, 16);
-            userLabel.TabIndex = 11;
-            userLabel.Text = "Benutzername:";
-            // 
-            // passLabel
-            // 
-            passLabel.AutoSize = true;
-            passLabel.Location = new Point(2, 88);
-            passLabel.Name = "passLabel";
-            passLabel.Size = new Size(61, 16);
-            passLabel.TabIndex = 12;
-            passLabel.Text = "Passwort:";
-            // 
             // userListLabel
             // 
             userListLabel.AutoSize = true;
-            userListLabel.Location = new Point(477, 145);
+            userListLabel.Font = new Font("Yu Gothic", 12F, FontStyle.Bold);
+            userListLabel.ForeColor = Color.Ivory;
+            userListLabel.Location = new Point(480, 12);
             userListLabel.Name = "userListLabel";
-            userListLabel.Size = new Size(98, 16);
+            userListLabel.Size = new Size(140, 21);
             userListLabel.TabIndex = 13;
             userListLabel.Text = "Account wählen:";
             // 
             // listGameLabel
             // 
             listGameLabel.AutoSize = true;
-            listGameLabel.Location = new Point(832, 36);
+            listGameLabel.Font = new Font("Yu Gothic", 12F, FontStyle.Bold);
+            listGameLabel.ForeColor = Color.Ivory;
+            listGameLabel.Location = new Point(683, 9);
             listGameLabel.Name = "listGameLabel";
-            listGameLabel.Size = new Size(71, 16);
+            listGameLabel.Size = new Size(103, 21);
             listGameLabel.TabIndex = 15;
             listGameLabel.Text = "Spieleliste: ";
             // 
             // btnShowPassword
             // 
+            btnShowPassword.BackgroundImage = Properties.Resources.icon;
             btnShowPassword.FlatStyle = FlatStyle.Flat;
             btnShowPassword.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnShowPassword.Location = new Point(576, 201);
+            btnShowPassword.Location = new Point(579, 124);
             btnShowPassword.Name = "btnShowPassword";
             btnShowPassword.Size = new Size(98, 45);
             btnShowPassword.TabIndex = 16;
@@ -193,9 +118,10 @@
             // 
             // btnCopyPassword
             // 
+            btnCopyPassword.BackgroundImage = Properties.Resources.icon;
             btnCopyPassword.FlatStyle = FlatStyle.Flat;
             btnCopyPassword.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCopyPassword.Location = new Point(477, 201);
+            btnCopyPassword.Location = new Point(480, 124);
             btnCopyPassword.Name = "btnCopyPassword";
             btnCopyPassword.Size = new Size(98, 45);
             btnCopyPassword.TabIndex = 17;
@@ -205,9 +131,11 @@
             // 
             // feetchGamesButton
             // 
-            feetchGamesButton.Location = new Point(396, 223);
+            feetchGamesButton.BackgroundImage = Properties.Resources.icon;
+            feetchGamesButton.FlatStyle = FlatStyle.Flat;
+            feetchGamesButton.Location = new Point(579, 75);
             feetchGamesButton.Name = "feetchGamesButton";
-            feetchGamesButton.Size = new Size(75, 23);
+            feetchGamesButton.Size = new Size(98, 43);
             feetchGamesButton.TabIndex = 18;
             feetchGamesButton.Text = "SteamID";
             feetchGamesButton.UseVisualStyleBackColor = true;
@@ -216,69 +144,88 @@
             // imgIcons
             // 
             imgIcons.ColorDepth = ColorDepth.Depth32Bit;
-            imgIcons.ImageSize = new Size(16, 16);
+            imgIcons.ImageSize = new Size(32, 32);
             imgIcons.TransparentColor = Color.Transparent;
             // 
-            // menuStrip1
+            // addUserButton
             // 
-            menuStrip1.BackColor = SystemColors.ActiveCaption;
-            menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem2, toolStripMenuItem1 });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1192, 24);
-            menuStrip1.TabIndex = 19;
-            menuStrip1.Text = "menuStrip1";
+            addUserButton.BackgroundImage = Properties.Resources.icon;
+            addUserButton.FlatStyle = FlatStyle.Flat;
+            addUserButton.Font = new Font("Algerian", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            addUserButton.Location = new Point(480, 175);
+            addUserButton.Name = "addUserButton";
+            addUserButton.Size = new Size(197, 65);
+            addUserButton.TabIndex = 20;
+            addUserButton.Text = "Benutzer Hinzufügen";
+            addUserButton.UseVisualStyleBackColor = true;
+            addUserButton.Click += addUserButton_Click;
             // 
-            // toolStripMenuItem2
+            // lstvGames
             // 
-            toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(12, 20);
+            lstvGames.BackColor = Color.DimGray;
+            lstvGames.Columns.AddRange(new ColumnHeader[] { columnGame });
+            lstvGames.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lstvGames.ForeColor = Color.Bisque;
+            lstvGames.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            lstvGames.Location = new Point(683, 36);
+            lstvGames.Name = "lstvGames";
+            lstvGames.Size = new Size(364, 709);
+            lstvGames.SmallImageList = imgIcons;
+            lstvGames.TabIndex = 21;
+            lstvGames.UseCompatibleStateImageBehavior = false;
+            lstvGames.View = View.Details;
+            lstvGames.SelectedIndexChanged += lstvGames_SelectedIndexChanged_1;
             // 
-            // toolStripMenuItem1
+            // columnGame
             // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(130, 20);
-            toolStripMenuItem1.Text = "Benutzer Hinzufügen";
-            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
+            columnGame.Text = "Spieleliste: ";
+            columnGame.Width = 300;
             // 
-            // Form1
+            // buttonStartGame
+            // 
+            buttonStartGame.BackgroundImage = Properties.Resources.icon;
+            buttonStartGame.FlatStyle = FlatStyle.Flat;
+            buttonStartGame.Font = new Font("Algerian", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonStartGame.Location = new Point(480, 424);
+            buttonStartGame.Name = "buttonStartGame";
+            buttonStartGame.Size = new Size(197, 65);
+            buttonStartGame.TabIndex = 22;
+            buttonStartGame.Text = "Start Game";
+            buttonStartGame.UseVisualStyleBackColor = true;
+            buttonStartGame.Click += buttonStartGame_Click;
+            // 
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveBorder;
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(1192, 759);
+            ClientSize = new Size(1070, 754);
+            Controls.Add(buttonStartGame);
+            Controls.Add(lstvGames);
+            Controls.Add(addUserButton);
             Controls.Add(feetchGamesButton);
             Controls.Add(btnCopyPassword);
             Controls.Add(btnShowPassword);
             Controls.Add(listGameLabel);
             Controls.Add(userListLabel);
-            Controls.Add(passLabel);
-            Controls.Add(userLabel);
             Controls.Add(deleteUser);
-            Controls.Add(lstGames);
-            Controls.Add(showPasswordButton);
             Controls.Add(button2);
             Controls.Add(comboBox1);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
-            Controls.Add(button1);
-            Controls.Add(menuStrip1);
             Font = new Font("Yu Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ForeColor = Color.FloralWhite;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MainMenuStrip = menuStrip1;
-            Name = "Form1";
+            Name = "MainForm";
             Text = "@Siyarbekir's ACM";
             Load += Form1_Load;
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Button button1;
+        private Button addUserButton;
         private TextBox textBox1;
         private TextBox textBox2;
         private ComboBox comboBox1;
@@ -286,7 +233,6 @@
         private Button showPasswordButton;
         private TextBox txtGameName;
         private Button btnAddGame;
-        private ListBox lstGames;
         private Button deleteUser;
         private Button deleteGameButton;
         private Label userLabel;
@@ -298,8 +244,9 @@
         private Button btnCopyPassword;
         private Button feetchGamesButton;
         private ImageList imgIcons;
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem toolStripMenuItem2;
-        private ToolStripMenuItem toolStripMenuItem1;
+        private ContextMenuStrip contextMenuStrip1;
+        private ListView lstvGames;
+        private ColumnHeader columnGame;
+        private Button buttonStartGame;
     }
 }
