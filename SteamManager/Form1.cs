@@ -14,6 +14,13 @@ using System.Security.Policy;
 namespace SteamManager
 {
 
+
+
+
+
+
+
+
     public partial class Form1 : Form
     {
 
@@ -605,10 +612,25 @@ namespace SteamManager
 
         }
 
-        private void lstGames_SelectedIndexChanged(object sender, EventArgs e)
+
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            AddUserForm first = new AddUserForm();
+            first.Show();
 
         }
+    }
+
+
+
+
+
+
+
+    public partial class AddUserForm : Form
+    {
+
     }
 }
 //https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/555160/d537afd8696affb4b2294aed07be5e13bcfc5d87.jpg

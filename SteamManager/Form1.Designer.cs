@@ -46,13 +46,17 @@
             btnCopyPassword = new Button();
             feetchGamesButton = new Button();
             imgIcons = new ImageList(components);
+            menuStrip1 = new MenuStrip();
+            toolStripMenuItem2 = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripMenuItem();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // button1
             // 
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Algerian", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(22, 117);
+            button1.Location = new Point(12, 147);
             button1.Name = "button1";
             button1.Size = new Size(187, 65);
             button1.TabIndex = 0;
@@ -62,7 +66,7 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(22, 35);
+            textBox1.Location = new Point(12, 65);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(187, 27);
             textBox1.TabIndex = 1;
@@ -71,7 +75,7 @@
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(22, 84);
+            textBox2.Location = new Point(12, 114);
             textBox2.Name = "textBox2";
             textBox2.PasswordChar = '*';
             textBox2.Size = new Size(187, 27);
@@ -82,7 +86,7 @@
             // 
             comboBox1.Font = new Font("Yu Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(503, 27);
+            comboBox1.Location = new Point(477, 164);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(197, 33);
             comboBox1.TabIndex = 3;
@@ -92,7 +96,7 @@
             // 
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Algerian", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(503, 115);
+            button2.Location = new Point(477, 252);
             button2.Name = "button2";
             button2.Size = new Size(197, 65);
             button2.TabIndex = 4;
@@ -110,7 +114,7 @@
             showPasswordButton.FlatStyle = FlatStyle.Flat;
             showPasswordButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             showPasswordButton.Image = Properties.Resources.auge;
-            showPasswordButton.Location = new Point(215, 94);
+            showPasswordButton.Location = new Point(205, 124);
             showPasswordButton.Name = "showPasswordButton";
             showPasswordButton.Size = new Size(25, 17);
             showPasswordButton.TabIndex = 5;
@@ -122,17 +126,16 @@
             lstGames.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lstGames.FormattingEnabled = true;
             lstGames.ItemHeight = 17;
-            lstGames.Location = new Point(810, 29);
+            lstGames.Location = new Point(832, 55);
             lstGames.Name = "lstGames";
             lstGames.Size = new Size(348, 701);
             lstGames.TabIndex = 8;
-            lstGames.SelectedIndexChanged += lstGames_SelectedIndexChanged;
             // 
             // deleteUser
             // 
             deleteUser.FlatStyle = FlatStyle.Flat;
             deleteUser.Font = new Font("Yu Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            deleteUser.Location = new Point(706, 29);
+            deleteUser.Location = new Point(373, 172);
             deleteUser.Name = "deleteUser";
             deleteUser.Size = new Size(98, 25);
             deleteUser.TabIndex = 9;
@@ -143,7 +146,7 @@
             // userLabel
             // 
             userLabel.AutoSize = true;
-            userLabel.Location = new Point(22, 16);
+            userLabel.Location = new Point(12, 46);
             userLabel.Name = "userLabel";
             userLabel.Size = new Size(91, 16);
             userLabel.TabIndex = 11;
@@ -152,7 +155,7 @@
             // passLabel
             // 
             passLabel.AutoSize = true;
-            passLabel.Location = new Point(12, 58);
+            passLabel.Location = new Point(2, 88);
             passLabel.Name = "passLabel";
             passLabel.Size = new Size(61, 16);
             passLabel.TabIndex = 12;
@@ -161,7 +164,7 @@
             // userListLabel
             // 
             userListLabel.AutoSize = true;
-            userListLabel.Location = new Point(503, 8);
+            userListLabel.Location = new Point(477, 145);
             userListLabel.Name = "userListLabel";
             userListLabel.Size = new Size(98, 16);
             userListLabel.TabIndex = 13;
@@ -170,7 +173,7 @@
             // listGameLabel
             // 
             listGameLabel.AutoSize = true;
-            listGameLabel.Location = new Point(810, 10);
+            listGameLabel.Location = new Point(832, 36);
             listGameLabel.Name = "listGameLabel";
             listGameLabel.Size = new Size(71, 16);
             listGameLabel.TabIndex = 15;
@@ -180,7 +183,7 @@
             // 
             btnShowPassword.FlatStyle = FlatStyle.Flat;
             btnShowPassword.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnShowPassword.Location = new Point(602, 64);
+            btnShowPassword.Location = new Point(576, 201);
             btnShowPassword.Name = "btnShowPassword";
             btnShowPassword.Size = new Size(98, 45);
             btnShowPassword.TabIndex = 16;
@@ -192,7 +195,7 @@
             // 
             btnCopyPassword.FlatStyle = FlatStyle.Flat;
             btnCopyPassword.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCopyPassword.Location = new Point(503, 64);
+            btnCopyPassword.Location = new Point(477, 201);
             btnCopyPassword.Name = "btnCopyPassword";
             btnCopyPassword.Size = new Size(98, 45);
             btnCopyPassword.TabIndex = 17;
@@ -202,7 +205,7 @@
             // 
             // feetchGamesButton
             // 
-            feetchGamesButton.Location = new Point(706, 64);
+            feetchGamesButton.Location = new Point(396, 223);
             feetchGamesButton.Name = "feetchGamesButton";
             feetchGamesButton.Size = new Size(75, 23);
             feetchGamesButton.TabIndex = 18;
@@ -215,6 +218,28 @@
             imgIcons.ColorDepth = ColorDepth.Depth32Bit;
             imgIcons.ImageSize = new Size(16, 16);
             imgIcons.TransparentColor = Color.Transparent;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.BackColor = SystemColors.ActiveCaption;
+            menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem2, toolStripMenuItem1 });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(1192, 24);
+            menuStrip1.TabIndex = 19;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // toolStripMenuItem2
+            // 
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            toolStripMenuItem2.Size = new Size(12, 20);
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(130, 20);
+            toolStripMenuItem1.Text = "Benutzer Hinzufügen";
+            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
             // 
             // Form1
             // 
@@ -237,12 +262,16 @@
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(button1);
+            Controls.Add(menuStrip1);
             Font = new Font("Yu Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "@Siyarbekir's ACM";
             Load += Form1_Load;
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -269,5 +298,8 @@
         private Button btnCopyPassword;
         private Button feetchGamesButton;
         private ImageList imgIcons;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripMenuItem toolStripMenuItem1;
     }
 }
