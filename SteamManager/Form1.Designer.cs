@@ -47,13 +47,15 @@
             listGameLabel = new Label();
             btnShowPassword = new Button();
             btnCopyPassword = new Button();
+            feetchGamesButton = new Button();
+            listGames = new ListBox();
             SuspendLayout();
             // 
             // button1
             // 
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Algerian", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(12, 285);
+            button1.Location = new Point(22, 117);
             button1.Name = "button1";
             button1.Size = new Size(187, 65);
             button1.TabIndex = 0;
@@ -63,7 +65,7 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(12, 119);
+            textBox1.Location = new Point(22, 35);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(187, 27);
             textBox1.TabIndex = 1;
@@ -72,7 +74,7 @@
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(12, 186);
+            textBox2.Location = new Point(22, 84);
             textBox2.Name = "textBox2";
             textBox2.PasswordChar = '*';
             textBox2.Size = new Size(187, 27);
@@ -83,7 +85,7 @@
             // 
             comboBox1.Font = new Font("Yu Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(310, 50);
+            comboBox1.Location = new Point(246, 29);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(197, 33);
             comboBox1.TabIndex = 3;
@@ -93,7 +95,7 @@
             // 
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Algerian", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(310, 138);
+            button2.Location = new Point(246, 117);
             button2.Name = "button2";
             button2.Size = new Size(197, 65);
             button2.TabIndex = 4;
@@ -111,16 +113,16 @@
             showPasswordButton.FlatStyle = FlatStyle.Flat;
             showPasswordButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             showPasswordButton.Image = Properties.Resources.auge;
-            showPasswordButton.Location = new Point(205, 185);
+            showPasswordButton.Location = new Point(215, 94);
             showPasswordButton.Name = "showPasswordButton";
-            showPasswordButton.Size = new Size(37, 25);
+            showPasswordButton.Size = new Size(25, 17);
             showPasswordButton.TabIndex = 5;
             showPasswordButton.UseVisualStyleBackColor = false;
             showPasswordButton.Click += button3_Click;
             // 
             // txtGameName
             // 
-            txtGameName.Location = new Point(310, 253);
+            txtGameName.Location = new Point(246, 368);
             txtGameName.Name = "txtGameName";
             txtGameName.Size = new Size(197, 27);
             txtGameName.TabIndex = 6;
@@ -130,7 +132,7 @@
             // 
             btnAddGame.FlatStyle = FlatStyle.Flat;
             btnAddGame.Font = new Font("Algerian", 20.25F, FontStyle.Bold);
-            btnAddGame.Location = new Point(310, 283);
+            btnAddGame.Location = new Point(246, 398);
             btnAddGame.Name = "btnAddGame";
             btnAddGame.Size = new Size(197, 65);
             btnAddGame.TabIndex = 7;
@@ -143,7 +145,7 @@
             lstGames.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lstGames.FormattingEnabled = true;
             lstGames.ItemHeight = 17;
-            lstGames.Location = new Point(526, 50);
+            lstGames.Location = new Point(449, 77);
             lstGames.Name = "lstGames";
             lstGames.Size = new Size(206, 395);
             lstGames.TabIndex = 8;
@@ -152,7 +154,7 @@
             // 
             deleteUser.FlatStyle = FlatStyle.Flat;
             deleteUser.Font = new Font("Yu Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            deleteUser.Location = new Point(409, 22);
+            deleteUser.Location = new Point(345, 1);
             deleteUser.Name = "deleteUser";
             deleteUser.Size = new Size(98, 25);
             deleteUser.TabIndex = 9;
@@ -163,7 +165,7 @@
             // deleteGameButton
             // 
             deleteGameButton.FlatStyle = FlatStyle.Flat;
-            deleteGameButton.Location = new Point(657, 19);
+            deleteGameButton.Location = new Point(580, 46);
             deleteGameButton.Name = "deleteGameButton";
             deleteGameButton.Size = new Size(75, 25);
             deleteGameButton.TabIndex = 10;
@@ -174,7 +176,7 @@
             // userLabel
             // 
             userLabel.AutoSize = true;
-            userLabel.Location = new Point(12, 100);
+            userLabel.Location = new Point(22, 16);
             userLabel.Name = "userLabel";
             userLabel.Size = new Size(91, 16);
             userLabel.TabIndex = 11;
@@ -183,7 +185,7 @@
             // passLabel
             // 
             passLabel.AutoSize = true;
-            passLabel.Location = new Point(12, 167);
+            passLabel.Location = new Point(12, 58);
             passLabel.Name = "passLabel";
             passLabel.Size = new Size(61, 16);
             passLabel.TabIndex = 12;
@@ -192,7 +194,7 @@
             // userListLabel
             // 
             userListLabel.AutoSize = true;
-            userListLabel.Location = new Point(310, 31);
+            userListLabel.Location = new Point(246, 10);
             userListLabel.Name = "userListLabel";
             userListLabel.Size = new Size(98, 16);
             userListLabel.TabIndex = 13;
@@ -201,7 +203,7 @@
             // gameNameLabel
             // 
             gameNameLabel.AutoSize = true;
-            gameNameLabel.Location = new Point(310, 235);
+            gameNameLabel.Location = new Point(246, 350);
             gameNameLabel.Name = "gameNameLabel";
             gameNameLabel.Size = new Size(69, 16);
             gameNameLabel.TabIndex = 14;
@@ -210,7 +212,7 @@
             // listGameLabel
             // 
             listGameLabel.AutoSize = true;
-            listGameLabel.Location = new Point(526, 28);
+            listGameLabel.Location = new Point(449, 55);
             listGameLabel.Name = "listGameLabel";
             listGameLabel.Size = new Size(71, 16);
             listGameLabel.TabIndex = 15;
@@ -220,7 +222,7 @@
             // 
             btnShowPassword.FlatStyle = FlatStyle.Flat;
             btnShowPassword.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnShowPassword.Location = new Point(409, 87);
+            btnShowPassword.Location = new Point(345, 66);
             btnShowPassword.Name = "btnShowPassword";
             btnShowPassword.Size = new Size(98, 45);
             btnShowPassword.TabIndex = 16;
@@ -232,7 +234,7 @@
             // 
             btnCopyPassword.FlatStyle = FlatStyle.Flat;
             btnCopyPassword.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCopyPassword.Location = new Point(310, 87);
+            btnCopyPassword.Location = new Point(246, 66);
             btnCopyPassword.Name = "btnCopyPassword";
             btnCopyPassword.Size = new Size(98, 45);
             btnCopyPassword.TabIndex = 17;
@@ -240,12 +242,35 @@
             btnCopyPassword.UseVisualStyleBackColor = true;
             btnCopyPassword.Click += btnCopyPassword_Click;
             // 
+            // feetchGamesButton
+            // 
+            feetchGamesButton.Location = new Point(580, 22);
+            feetchGamesButton.Name = "feetchGamesButton";
+            feetchGamesButton.Size = new Size(75, 23);
+            feetchGamesButton.TabIndex = 18;
+            feetchGamesButton.Text = "SteamID";
+            feetchGamesButton.UseVisualStyleBackColor = true;
+            feetchGamesButton.Click += feetchGamesButton_Click;
+            // 
+            // listGames
+            // 
+            listGames.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            listGames.FormattingEnabled = true;
+            listGames.ItemHeight = 17;
+            listGames.Location = new Point(753, 10);
+            listGames.Name = "listGames";
+            listGames.Size = new Size(410, 582);
+            listGames.TabIndex = 19;
+            listGames.SelectedIndexChanged += listGames_SelectedIndexChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(773, 509);
+            ClientSize = new Size(1273, 657);
+            Controls.Add(listGames);
+            Controls.Add(feetchGamesButton);
             Controls.Add(btnCopyPassword);
             Controls.Add(btnShowPassword);
             Controls.Add(listGameLabel);
@@ -294,5 +319,7 @@
         private Label listGameLabel;
         private Button btnShowPassword;
         private Button btnCopyPassword;
+        private Button feetchGamesButton;
+        private ListBox listGames;
     }
 }

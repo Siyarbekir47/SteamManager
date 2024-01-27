@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.DirectoryServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
+using System.Security.Policy;
 
 /* TODO:
 - Allow nicknames for accounts
@@ -14,10 +17,13 @@ namespace SteamManager
     public partial class Form1 : Form
     {
 
+
         private string appLocalFolder;
         private string myAppFolder;
         private string fullPath;
+        private string apiKey = "Your_API_Key";
         private Dictionary<string, List<string>> userGames = new Dictionary<string, List<string>>();
+
         struct user
         {
             public user(string user, string pass, bool isPasswordEncrypted)
@@ -34,6 +40,34 @@ namespace SteamManager
         }
 
         List<user> userlist = new List<user>();
+
+        public class GameInfo
+        {
+            [JsonProperty("Name")]
+            public string Name { get; set; }
+
+            [JsonProperty("AppID")]
+            public string AppID { get; set; }
+
+            [JsonProperty("playtime_forever")]
+            public string Playtime { get; set; }
+
+            [JsonProperty("img_icon_url")]
+            public string IconURL { get; set; }
+
+        }
+        public class AccountInfo
+        {
+            [JsonProperty("Nickname")]
+            public string Nickname { get; set; }
+
+            [JsonProperty("ProfileLink")]
+            public string ProfileLink { get; set; }
+
+            [JsonProperty("ProfileIcon")]
+            public string ProfileIcon { get; set; }
+        }
+
 
 
 
@@ -99,6 +133,43 @@ namespace SteamManager
         }
 
 
+
+        private void LoadUsersGames(string steamid64)
+        {
+            string gamesFilePath = Path.Combine(myAppFolder, steamid64 + "Gi.json");
+            if(File.Exists(gamesFilePath))
+            {
+
+                try
+                {
+                    string json = File.ReadAllText(gamesFilePath);
+                    List<GameInfo> loadedGames = JsonConvert.DeserializeObject<List<GameInfo>>(json);
+
+                    if (loadedGames != null)
+                    {
+                        // Clear the existing list and add the loaded games to lstGames
+                        listGames.Items.Clear();
+                        loadedGames.ForEach(loadedGames => listGames.Items.Add(loadedGames.Name));
+                    }
+                    else
+                    {
+                        MessageBox.Show("The games file is empty or contains invalid data.", "Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    loadedGames.ForEach(loadedGames => listGames.Items.Add(loadedGames.Name));
+
+                }
+                catch (JsonException jsonEx)
+                {
+                    MessageBox.Show("An error occurred while deserializing the games file: " + jsonEx.Message, "JSON Deserialization Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred while loading games: " + ex.Message, "General Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+
         private void SaveUsers()
         {
             for (int i = 0; i < userlist.Count; i++)
@@ -117,7 +188,7 @@ namespace SteamManager
 
 
 
-        private void LoadUsers()
+        public void LoadUsers()
         {
             string usersFilePath = Path.Combine(myAppFolder, "sysus.json");
 
@@ -208,18 +279,11 @@ namespace SteamManager
             {
                 Directory.CreateDirectory(myAppFolder);
             }
-
-
-
-
             showPasswordButton.BackColor = Color.Red;
 
 
-            // Assuming LoadUserGames is a method you've created to load games for users
-
             LoadUsers();
             LoadUserGames();
-
 
 
 
@@ -459,5 +523,125 @@ namespace SteamManager
         }
 
 
+
+        private async Task<string> GetSteamBib(string steamid64)
+        {
+            string urlGames = $"http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={apiKey}&steamid={steamid64}&format=json&include_appinfo=1";
+            string urlAccount = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key={apiKey}&format=json&steamids={steamid64}";
+            if (steamid64 == null)
+            {
+                MessageBox.Show("Keine SteamID64 gefunden.");
+                return null;
+            }
+
+
+            using (HttpClient client = new HttpClient())
+            {
+                var firstResponse = await client.GetStringAsync(urlGames);
+                var gamesJsonData = JObject.Parse(firstResponse);
+                string gamesFilePath = Path.Combine(myAppFolder, steamid64 + "Gi.json");
+                var gamesArray = gamesJsonData["response"]["games"] as JArray; // Cast to JArray to access the array methods
+
+
+
+                if (gamesArray != null && gamesArray.Count > 0)
+                {
+                    // There are games in the JSON data, so you can proceed with processing
+                    var games = gamesJsonData["response"]["games"].Select(game => new
+                    {
+                        Name = game["name"].ToString(),
+                        AppID = game["appid"].ToString(),
+                        Playtime = game["playtime_forever"].ToString(),
+                        IconURL = game["img_icon_url"].ToString()
+                    }).ToList();
+
+
+                    if (File.Exists(gamesFilePath))
+                    {
+                        File.Delete(gamesFilePath);
+                    }
+                   
+
+                    MessageBox.Show("Spiele gefunden.");
+                    // Serialize the list of games to JSON as an array
+                    string json = JsonConvert.SerializeObject(games, Formatting.Indented);
+
+
+                    // Write the JSON to the file
+                    File.WriteAllText(gamesFilePath, json);
+                }
+                else
+                {
+                    MessageBox.Show("Keine Spiele gefunden.");
+                    return null;
+                }
+
+
+                var secondResponse = await client.GetStringAsync(urlAccount);
+                var accountJsonData = JObject.Parse(secondResponse);
+                string accountFilePath = Path.Combine(myAppFolder, steamid64 + "Ai.json");
+
+                var account = accountJsonData["response"]["players"].Select(account => new
+                {
+                    Nickname = account["personaname"].ToString(),
+                    ProfileLink = account["profileurl"].ToString(),
+                    ProfileIcon = account["avatarfull"].ToString()
+                }).ToList();
+
+
+                // Delete the file if it exists
+
+                if (File.Exists(accountFilePath))
+                {
+                    File.Delete(accountFilePath);
+                }
+
+
+
+                if (account.Count == 0)
+                {
+                    MessageBox.Show("Kein Account gefunden.");
+                }
+                else
+                {
+                    string json = JsonConvert.SerializeObject(account, Formatting.Indented);
+                    File.WriteAllText(accountFilePath, json);
+                }
+                LoadUsersGames(steamid64);
+                return null;
+            }
+        }
+
+
+        private void feetchGamesButton_Click(object sender, EventArgs e)
+        {
+
+            string SteamID64 = SteamData.GetCurrentSteamID64();
+
+            if(SteamID64 != null)
+            {
+                Clipboard.SetText(SteamID64);
+                GetSteamBib(SteamID64);
+                LoadUsersGames(SteamID64);
+            }
+            else
+            {
+                return;
+            }
+
+
+
+
+
+
+        }
+
+        private void listGames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
+//https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/555160/d537afd8696affb4b2294aed07be5e13bcfc5d87.jpg
+//http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=EDF2C147BDAEAD8453FB0FAA92E657E8&steamid=76561198399121690&format=json&include_appinfo=1
+//https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=EDF2C147BDAEAD8453FB0FAA92E657E8&format=json&steamids=76561199196109384 
