@@ -23,7 +23,7 @@ namespace SteamManager
         private string myAppFolder;
         private string fullPath;
         private string myResourcesFolder;
-        private string apiKey = "EDF2C147BDAEAD8453FB0FAA92E657E8";
+        private string apiKey = "YOUR_API_KEY";
         private Dictionary<string, List<string>> userGames = new Dictionary<string, List<string>>();
 
 
