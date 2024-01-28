@@ -8,6 +8,7 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Security.Policy;
 using System.Net;
+using MetroSet_UI.Enums;
 
 /* TODO:
 dotnet publish -r win-x64 -p:PublishSingleFile=true --self-contained false
@@ -20,7 +21,7 @@ namespace SteamManager
 {
 
 
-    public partial class MainForm : Form
+    public partial class MainForm : MetroSet_UI.Forms.MetroSetForm
     {
 
 
@@ -290,6 +291,7 @@ namespace SteamManager
 
             LoadUsers();
             LoadUserGames();
+            metroSetControlBox1.Location = new Point(690, 5);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -684,6 +686,16 @@ namespace SteamManager
             string searchQuery = txtSearchBox.Text.ToLower();
 
             //filter list of games based on search query
+
+        }
+
+        private void metroSetContextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void metroSetTabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
     }
