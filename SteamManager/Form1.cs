@@ -48,9 +48,8 @@ namespace SteamManager
             public string steamID64 { get; set; }
 
             public bool isPasswordEncrypted { get; set; }
-
         }
-
+        public
         List<user> userlist = new List<user>();
 
         public class GameInfo
@@ -82,6 +81,9 @@ namespace SteamManager
             [JsonProperty("SteamID64")]
             public string SteamID64 { get; set; }
         }
+
+
+
 
         public void AddNewUser(string user, string pass)
         {
@@ -152,6 +154,8 @@ namespace SteamManager
                                 // Add the item to the ListView
                                 lstvGames.Items.Add(item);
                                 item.Tag = game.AppID; // Store the AppID in the Tag property
+                                lstvGames.ListViewItemSorter = new ListViewItemComparer(0, SortOrder.Ascending);
+                                lstvGames.Sort();
 
                             }
                         }
@@ -175,6 +179,7 @@ namespace SteamManager
                 }
             }
         }
+
 
         private void LoadUsersGames(string steamid64)
         {
@@ -247,10 +252,11 @@ namespace SteamManager
                         {
                             comboBox1.Items.Add(userItem.username);
                         }
-                        if(comboBox1.Items.Count > 0)
+                        if (comboBox1.Items.Count > 0)
                         {
-                            comboBox1.SelectedIndex = 0;                        }
-                        }   
+                            comboBox1.SelectedIndex = 0;
+                        }
+                    }
                     else
                     {
                         MessageBox.Show("The users file is empty or contains invalid data.", "Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -278,7 +284,7 @@ namespace SteamManager
             myAppFolder = Path.Combine(appLocalFolder, "SM");
             myResourcesFolder = Path.Combine(myAppFolder, "Resources");
             fullPath = Path.Combine(myAppFolder, "syspl");
-            
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -702,6 +708,11 @@ namespace SteamManager
         private void metroSetTabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void lstvGames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+;
         }
     }
 

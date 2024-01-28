@@ -36,12 +36,11 @@
             txtSearchBox = new MetroSet_UI.Controls.MetroSetTextBox();
             styleManager1 = new MetroSet_UI.Components.StyleManager();
             labelQuickSearch = new MetroSet_UI.Controls.MetroSetLabel();
-            listGameLabel = new MetroSet_UI.Controls.MetroSetLabel();
             userListLabel = new MetroSet_UI.Controls.MetroSetLabel();
             pictureBoxProfile = new PictureBox();
             linkLabelProfile = new LinkLabel();
             lstvGames = new ListView();
-            columnGame = new ColumnHeader();
+            tabFirst = new ColumnHeader();
             buttonStartGame = new MetroSet_UI.Controls.MetroSetButton();
             comboBox1 = new MetroSet_UI.Controls.MetroSetComboBox();
             button2 = new MetroSet_UI.Controls.MetroSetButton();
@@ -82,8 +81,8 @@
             metroSetTabControl1.StyleManager = styleManager1;
             metroSetTabControl1.TabIndex = 28;
             metroSetTabControl1.TabStyle = MetroSet_UI.Enums.TabStyle.Style2;
-            metroSetTabControl1.ThemeAuthor = null;
-            metroSetTabControl1.ThemeName = null;
+            metroSetTabControl1.ThemeAuthor = "Narwin";
+            metroSetTabControl1.ThemeName = "MetroLight";
             metroSetTabControl1.UnselectedTextColor = Color.Gray;
             metroSetTabControl1.UseAnimation = false;
             metroSetTabControl1.SelectedIndexChanged += metroSetTabControl1_SelectedIndexChanged;
@@ -94,7 +93,6 @@
             tabMainPage.BackColor = Color.Transparent;
             tabMainPage.Controls.Add(txtSearchBox);
             tabMainPage.Controls.Add(labelQuickSearch);
-            tabMainPage.Controls.Add(listGameLabel);
             tabMainPage.Controls.Add(userListLabel);
             tabMainPage.Controls.Add(pictureBoxProfile);
             tabMainPage.Controls.Add(linkLabelProfile);
@@ -130,18 +128,18 @@
             txtSearchBox.Image = null;
             txtSearchBox.IsDerivedStyle = true;
             txtSearchBox.Lines = null;
-            txtSearchBox.Location = new Point(680, 7);
+            txtSearchBox.Location = new Point(572, 10);
             txtSearchBox.MaxLength = 32767;
             txtSearchBox.Multiline = false;
             txtSearchBox.Name = "txtSearchBox";
             txtSearchBox.ReadOnly = false;
-            txtSearchBox.Size = new Size(80, 23);
+            txtSearchBox.Size = new Size(152, 26);
             txtSearchBox.Style = MetroSet_UI.Enums.Style.Light;
             txtSearchBox.StyleManager = styleManager1;
             txtSearchBox.TabIndex = 31;
             txtSearchBox.TextAlign = HorizontalAlignment.Left;
-            txtSearchBox.ThemeAuthor = null;
-            txtSearchBox.ThemeName = null;
+            txtSearchBox.ThemeAuthor = "Narwin";
+            txtSearchBox.ThemeName = "MetroLight";
             txtSearchBox.UseSystemPasswordChar = false;
             txtSearchBox.WatermarkText = "";
             // 
@@ -150,36 +148,22 @@
             styleManager1.CustomTheme = "C:\\Users\\john\\AppData\\Roaming\\Microsoft\\Windows\\Templates\\ThemeFile.xml";
             styleManager1.MetroForm = this;
             styleManager1.Style = MetroSet_UI.Enums.Style.Light;
-            styleManager1.ThemeAuthor = null;
-            styleManager1.ThemeName = null;
+            styleManager1.ThemeAuthor = "Narwin";
+            styleManager1.ThemeName = "MetroLight";
             // 
             // labelQuickSearch
             // 
             labelQuickSearch.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelQuickSearch.IsDerivedStyle = true;
-            labelQuickSearch.Location = new Point(556, 10);
+            labelQuickSearch.Location = new Point(448, 13);
             labelQuickSearch.Name = "labelQuickSearch";
             labelQuickSearch.Size = new Size(121, 23);
             labelQuickSearch.Style = MetroSet_UI.Enums.Style.Light;
             labelQuickSearch.StyleManager = styleManager1;
             labelQuickSearch.TabIndex = 30;
             labelQuickSearch.Text = "Quick Search:";
-            labelQuickSearch.ThemeAuthor = null;
-            labelQuickSearch.ThemeName = null;
-            // 
-            // listGameLabel
-            // 
-            listGameLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            listGameLabel.IsDerivedStyle = true;
-            listGameLabel.Location = new Point(447, 10);
-            listGameLabel.Name = "listGameLabel";
-            listGameLabel.Size = new Size(103, 23);
-            listGameLabel.Style = MetroSet_UI.Enums.Style.Light;
-            listGameLabel.StyleManager = styleManager1;
-            listGameLabel.TabIndex = 29;
-            listGameLabel.Text = "Games list: ";
-            listGameLabel.ThemeAuthor = null;
-            listGameLabel.ThemeName = null;
+            labelQuickSearch.ThemeAuthor = "Narwin";
+            labelQuickSearch.ThemeName = "MetroLight";
             // 
             // userListLabel
             // 
@@ -192,8 +176,8 @@
             userListLabel.StyleManager = styleManager1;
             userListLabel.TabIndex = 28;
             userListLabel.Text = "Select Account:";
-            userListLabel.ThemeAuthor = null;
-            userListLabel.ThemeName = null;
+            userListLabel.ThemeAuthor = "Narwin";
+            userListLabel.ThemeName = "MetroLight";
             // 
             // pictureBoxProfile
             // 
@@ -221,24 +205,32 @@
             // 
             // lstvGames
             // 
+            lstvGames.AutoArrange = false;
             lstvGames.BackColor = SystemColors.InactiveBorder;
             lstvGames.BorderStyle = BorderStyle.FixedSingle;
-            lstvGames.Columns.AddRange(new ColumnHeader[] { columnGame });
+            lstvGames.Columns.AddRange(new ColumnHeader[] { tabFirst });
             lstvGames.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
             lstvGames.ForeColor = Color.Black;
+            lstvGames.GroupImageList = imgIcons;
             lstvGames.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            lstvGames.ImeMode = ImeMode.Alpha;
             lstvGames.Location = new Point(444, 36);
+            lstvGames.MinimumSize = new Size(32, 32);
+            lstvGames.MultiSelect = false;
             lstvGames.Name = "lstvGames";
+            lstvGames.ShowGroups = false;
+            lstvGames.ShowItemToolTips = true;
             lstvGames.Size = new Size(316, 491);
             lstvGames.SmallImageList = imgIcons;
             lstvGames.TabIndex = 21;
             lstvGames.UseCompatibleStateImageBehavior = false;
             lstvGames.View = View.Details;
+            lstvGames.SelectedIndexChanged += lstvGames_SelectedIndexChanged;
             // 
-            // columnGame
+            // tabFirst
             // 
-            columnGame.Text = "Spieleliste: ";
-            columnGame.Width = 300;
+            tabFirst.Text = "Games: ";
+            tabFirst.Width = 400;
             // 
             // buttonStartGame
             // 
@@ -264,8 +256,8 @@
             buttonStartGame.StyleManager = styleManager1;
             buttonStartGame.TabIndex = 22;
             buttonStartGame.Text = "Quick Start";
-            buttonStartGame.ThemeAuthor = null;
-            buttonStartGame.ThemeName = null;
+            buttonStartGame.ThemeAuthor = "Narwin";
+            buttonStartGame.ThemeName = "MetroLight";
             buttonStartGame.Click += buttonStartGame_Click;
             // 
             // comboBox1
@@ -293,8 +285,8 @@
             comboBox1.Style = MetroSet_UI.Enums.Style.Light;
             comboBox1.StyleManager = styleManager1;
             comboBox1.TabIndex = 3;
-            comboBox1.ThemeAuthor = null;
-            comboBox1.ThemeName = null;
+            comboBox1.ThemeAuthor = "Narwin";
+            comboBox1.ThemeName = "MetroLight";
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // button2
@@ -321,8 +313,8 @@
             button2.StyleManager = styleManager1;
             button2.TabIndex = 4;
             button2.Text = "Login";
-            button2.ThemeAuthor = null;
-            button2.ThemeName = null;
+            button2.ThemeAuthor = "Narwin";
+            button2.ThemeName = "MetroLight";
             button2.Click += button2_Click;
             // 
             // addUserButton
@@ -349,8 +341,8 @@
             addUserButton.StyleManager = styleManager1;
             addUserButton.TabIndex = 20;
             addUserButton.Text = "Add new User";
-            addUserButton.ThemeAuthor = null;
-            addUserButton.ThemeName = null;
+            addUserButton.ThemeAuthor = "Narwin";
+            addUserButton.ThemeName = "MetroLight";
             addUserButton.Click += addUserButton_Click;
             // 
             // deleteUser
@@ -377,8 +369,8 @@
             deleteUser.StyleManager = styleManager1;
             deleteUser.TabIndex = 9;
             deleteUser.Text = "Delete User";
-            deleteUser.ThemeAuthor = null;
-            deleteUser.ThemeName = null;
+            deleteUser.ThemeAuthor = "Narwin";
+            deleteUser.ThemeName = "MetroLight";
             deleteUser.Click += deleteUser_Click;
             // 
             // feetchGamesButton
@@ -405,8 +397,8 @@
             feetchGamesButton.StyleManager = styleManager1;
             feetchGamesButton.TabIndex = 18;
             feetchGamesButton.Text = "Feetch";
-            feetchGamesButton.ThemeAuthor = null;
-            feetchGamesButton.ThemeName = null;
+            feetchGamesButton.ThemeAuthor = "Narwin";
+            feetchGamesButton.ThemeName = "MetroLight";
             feetchGamesButton.Click += feetchGamesButton_Click;
             // 
             // btnCopyPassword
@@ -433,8 +425,8 @@
             btnCopyPassword.StyleManager = styleManager1;
             btnCopyPassword.TabIndex = 17;
             btnCopyPassword.Text = "Copy Password";
-            btnCopyPassword.ThemeAuthor = null;
-            btnCopyPassword.ThemeName = null;
+            btnCopyPassword.ThemeAuthor = "Narwin";
+            btnCopyPassword.ThemeName = "MetroLight";
             btnCopyPassword.Click += btnCopyPassword_Click;
             // 
             // btnShowPassword
@@ -461,8 +453,8 @@
             btnShowPassword.StyleManager = styleManager1;
             btnShowPassword.TabIndex = 16;
             btnShowPassword.Text = "Show Password";
-            btnShowPassword.ThemeAuthor = null;
-            btnShowPassword.ThemeName = null;
+            btnShowPassword.ThemeAuthor = "Narwin";
+            btnShowPassword.ThemeName = "MetroLight";
             btnShowPassword.Click += btnShowPassword_Click;
             // 
             // metroSetContextMenuStrip1
@@ -499,8 +491,8 @@
             metroSetControlBox1.StyleManager = styleManager1;
             metroSetControlBox1.TabIndex = 29;
             metroSetControlBox1.Text = "metroSetControlBox1";
-            metroSetControlBox1.ThemeAuthor = null;
-            metroSetControlBox1.ThemeName = null;
+            metroSetControlBox1.ThemeAuthor = "Narwin";
+            metroSetControlBox1.ThemeName = "MetroLight";
             // 
             // MainForm
             // 
@@ -525,8 +517,7 @@
             StyleManager = styleManager1;
             Text = "@SIYARBEKIR'S ACM";
             TextColor = Color.White;
-            ThemeAuthor = null;
-            ThemeName = null;
+            ThemeName = "MetroLight";
             Load += Form1_Load;
             metroSetTabControl1.ResumeLayout(false);
             tabMainPage.ResumeLayout(false);
@@ -549,17 +540,14 @@
         private ContextMenuStrip contextMenuStrip1;
         private MetroSet_UI.Controls.MetroSetTabControl metroSetTabControl1;
         private MetroSet_UI.Controls.MetroSetContextMenuStrip metroSetContextMenuStrip1;
-        private ColumnHeader columnGame;
         private TabPage tabMainPage;
         private MetroSet_UI.Controls.MetroSetTextBox txtSearchBox;
         private MetroSet_UI.Controls.MetroSetLabel labelQuickSearch;
-        private MetroSet_UI.Controls.MetroSetLabel listGameLabel;
         private MetroSet_UI.Controls.MetroSetLabel userListLabel;
         private PictureBox pictureBoxProfile;
         private LinkLabel linkLabelProfile;
         private ListView lstvGames;
         private MetroSet_UI.Controls.MetroSetButton buttonStartGame;
-        private MetroSet_UI.Controls.MetroSetComboBox comboBox1;
         private MetroSet_UI.Controls.MetroSetButton button2;
         private MetroSet_UI.Controls.MetroSetButton addUserButton;
         private MetroSet_UI.Controls.MetroSetButton deleteUser;
@@ -568,5 +556,7 @@
         private MetroSet_UI.Controls.MetroSetButton btnShowPassword;
         private MetroSet_UI.Components.StyleManager styleManager1;
         private MetroSet_UI.Controls.MetroSetControlBox metroSetControlBox1;
+        public MetroSet_UI.Controls.MetroSetComboBox comboBox1;
+        private ColumnHeader tabFirst;
     }
 }

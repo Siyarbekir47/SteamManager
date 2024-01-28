@@ -8,9 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using Microsoft.VisualBasic.ApplicationServices;
+using static SteamManager.MainForm;
+using SteamManager;
 
 public static class SteamData
 {
+
+
     public static String GetCurrentSteamID64()
     {
         string SteamID3 = null;
@@ -52,7 +56,6 @@ public static class SteamData
         }
         return null;
     }
-
 
 
 }
