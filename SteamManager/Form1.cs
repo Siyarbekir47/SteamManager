@@ -247,8 +247,10 @@ namespace SteamManager
                         {
                             comboBox1.Items.Add(userItem.username);
                         }
-                        comboBox1.SelectedIndex = 0;
-                    }
+                        if(comboBox1.Items.Count > 0)
+                        {
+                            comboBox1.SelectedIndex = 0;                        }
+                        }   
                     else
                     {
                         MessageBox.Show("The users file is empty or contains invalid data.", "Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
