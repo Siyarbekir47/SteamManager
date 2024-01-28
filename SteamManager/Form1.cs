@@ -102,6 +102,7 @@ namespace SteamManager
 
         private void LoadUserGames()
         {
+
             if (comboBox1.SelectedIndex != -1)
             {
                 string selectedUser = comboBox1.SelectedItem.ToString();
@@ -246,6 +247,7 @@ namespace SteamManager
                         {
                             comboBox1.Items.Add(userItem.username);
                         }
+                        comboBox1.SelectedIndex = 0;
                     }
                     else
                     {
@@ -274,6 +276,7 @@ namespace SteamManager
             myAppFolder = Path.Combine(appLocalFolder, "SM");
             myResourcesFolder = Path.Combine(myAppFolder, "Resources");
             fullPath = Path.Combine(myAppFolder, "syspl");
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
