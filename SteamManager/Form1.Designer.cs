@@ -43,13 +43,18 @@
             lstvGames = new ListView();
             columnGame = new ColumnHeader();
             buttonStartGame = new Button();
+            pictureBoxProfile = new PictureBox();
+            linkLabelProfile = new LinkLabel();
+            txtSearchBox = new TextBox();
+            label1 = new Label();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxProfile).BeginInit();
             SuspendLayout();
             // 
             // comboBox1
             // 
             comboBox1.Font = new Font("Yu Gothic", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(480, 36);
+            comboBox1.Location = new Point(270, 33);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(197, 33);
             comboBox1.TabIndex = 3;
@@ -60,7 +65,7 @@
             button2.BackgroundImage = Properties.Resources.icon;
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Algerian", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(480, 246);
+            button2.Location = new Point(270, 243);
             button2.Name = "button2";
             button2.Size = new Size(197, 65);
             button2.TabIndex = 4;
@@ -73,7 +78,7 @@
             deleteUser.BackgroundImage = Properties.Resources.icon;
             deleteUser.FlatStyle = FlatStyle.Flat;
             deleteUser.Font = new Font("Yu Gothic", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            deleteUser.Location = new Point(480, 75);
+            deleteUser.Location = new Point(270, 72);
             deleteUser.Name = "deleteUser";
             deleteUser.Size = new Size(98, 43);
             deleteUser.TabIndex = 9;
@@ -86,7 +91,7 @@
             userListLabel.AutoSize = true;
             userListLabel.Font = new Font("Yu Gothic", 12F, FontStyle.Bold);
             userListLabel.ForeColor = Color.Ivory;
-            userListLabel.Location = new Point(480, 12);
+            userListLabel.Location = new Point(270, 9);
             userListLabel.Name = "userListLabel";
             userListLabel.Size = new Size(140, 21);
             userListLabel.TabIndex = 13;
@@ -97,7 +102,7 @@
             listGameLabel.AutoSize = true;
             listGameLabel.Font = new Font("Yu Gothic", 12F, FontStyle.Bold);
             listGameLabel.ForeColor = Color.Ivory;
-            listGameLabel.Location = new Point(683, 9);
+            listGameLabel.Location = new Point(473, 13);
             listGameLabel.Name = "listGameLabel";
             listGameLabel.Size = new Size(103, 21);
             listGameLabel.TabIndex = 15;
@@ -108,7 +113,7 @@
             btnShowPassword.BackgroundImage = Properties.Resources.icon;
             btnShowPassword.FlatStyle = FlatStyle.Flat;
             btnShowPassword.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnShowPassword.Location = new Point(579, 124);
+            btnShowPassword.Location = new Point(369, 121);
             btnShowPassword.Name = "btnShowPassword";
             btnShowPassword.Size = new Size(98, 45);
             btnShowPassword.TabIndex = 16;
@@ -121,7 +126,7 @@
             btnCopyPassword.BackgroundImage = Properties.Resources.icon;
             btnCopyPassword.FlatStyle = FlatStyle.Flat;
             btnCopyPassword.Font = new Font("Yu Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCopyPassword.Location = new Point(480, 124);
+            btnCopyPassword.Location = new Point(270, 121);
             btnCopyPassword.Name = "btnCopyPassword";
             btnCopyPassword.Size = new Size(98, 45);
             btnCopyPassword.TabIndex = 17;
@@ -133,7 +138,7 @@
             // 
             feetchGamesButton.BackgroundImage = Properties.Resources.icon;
             feetchGamesButton.FlatStyle = FlatStyle.Flat;
-            feetchGamesButton.Location = new Point(579, 75);
+            feetchGamesButton.Location = new Point(369, 72);
             feetchGamesButton.Name = "feetchGamesButton";
             feetchGamesButton.Size = new Size(98, 43);
             feetchGamesButton.TabIndex = 18;
@@ -152,7 +157,7 @@
             addUserButton.BackgroundImage = Properties.Resources.icon;
             addUserButton.FlatStyle = FlatStyle.Flat;
             addUserButton.Font = new Font("Algerian", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            addUserButton.Location = new Point(480, 175);
+            addUserButton.Location = new Point(270, 172);
             addUserButton.Name = "addUserButton";
             addUserButton.Size = new Size(197, 65);
             addUserButton.TabIndex = 20;
@@ -167,14 +172,13 @@
             lstvGames.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lstvGames.ForeColor = Color.Bisque;
             lstvGames.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            lstvGames.Location = new Point(683, 36);
+            lstvGames.Location = new Point(473, 33);
             lstvGames.Name = "lstvGames";
             lstvGames.Size = new Size(364, 709);
             lstvGames.SmallImageList = imgIcons;
             lstvGames.TabIndex = 21;
             lstvGames.UseCompatibleStateImageBehavior = false;
             lstvGames.View = View.Details;
-            lstvGames.SelectedIndexChanged += lstvGames_SelectedIndexChanged_1;
             // 
             // columnGame
             // 
@@ -186,7 +190,7 @@
             buttonStartGame.BackgroundImage = Properties.Resources.icon;
             buttonStartGame.FlatStyle = FlatStyle.Flat;
             buttonStartGame.Font = new Font("Algerian", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            buttonStartGame.Location = new Point(480, 424);
+            buttonStartGame.Location = new Point(270, 421);
             buttonStartGame.Name = "buttonStartGame";
             buttonStartGame.Size = new Size(197, 65);
             buttonStartGame.TabIndex = 22;
@@ -194,13 +198,56 @@
             buttonStartGame.UseVisualStyleBackColor = true;
             buttonStartGame.Click += buttonStartGame_Click;
             // 
+            // pictureBoxProfile
+            // 
+            pictureBoxProfile.Location = new Point(40, 33);
+            pictureBoxProfile.Name = "pictureBoxProfile";
+            pictureBoxProfile.Size = new Size(203, 204);
+            pictureBoxProfile.TabIndex = 23;
+            pictureBoxProfile.TabStop = false;
+            // 
+            // linkLabelProfile
+            // 
+            linkLabelProfile.AutoSize = true;
+            linkLabelProfile.Font = new Font("Yu Gothic Light", 20.25F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            linkLabelProfile.LinkColor = SystemColors.Highlight;
+            linkLabelProfile.Location = new Point(40, 240);
+            linkLabelProfile.Name = "linkLabelProfile";
+            linkLabelProfile.Size = new Size(0, 35);
+            linkLabelProfile.TabIndex = 25;
+            linkLabelProfile.TextAlign = ContentAlignment.MiddleCenter;
+            linkLabelProfile.LinkClicked += linkLabelProfile_LinkClicked;
+            // 
+            // txtSearchBox
+            // 
+            txtSearchBox.Location = new Point(711, 7);
+            txtSearchBox.Name = "txtSearchBox";
+            txtSearchBox.Size = new Size(126, 27);
+            txtSearchBox.TabIndex = 26;
+            txtSearchBox.TextChanged += txtSearchBox_TextChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Yu Gothic", 12F, FontStyle.Bold);
+            label1.ForeColor = Color.Ivory;
+            label1.Location = new Point(582, 13);
+            label1.Name = "label1";
+            label1.Size = new Size(121, 21);
+            label1.TabIndex = 27;
+            label1.Text = "Schnellsuche:";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(1070, 754);
+            ClientSize = new Size(862, 759);
+            Controls.Add(label1);
+            Controls.Add(txtSearchBox);
+            Controls.Add(linkLabelProfile);
+            Controls.Add(pictureBoxProfile);
             Controls.Add(buttonStartGame);
             Controls.Add(lstvGames);
             Controls.Add(addUserButton);
@@ -219,6 +266,7 @@
             Name = "MainForm";
             Text = "@Siyarbekir's ACM";
             Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBoxProfile).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -248,5 +296,9 @@
         private ListView lstvGames;
         private ColumnHeader columnGame;
         private Button buttonStartGame;
+        private PictureBox pictureBoxProfile;
+        private LinkLabel linkLabelProfile;
+        private TextBox txtSearchBox;
+        private Label label1;
     }
 }

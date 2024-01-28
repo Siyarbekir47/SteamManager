@@ -7,9 +7,14 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Security.Policy;
+using System.Net;
 
 /* TODO:
-- Allow nicknames for accounts
+dotnet publish -r win-x64 -p:PublishSingleFile=true --self-contained false
+
+-add search function for games, (all users)
+
+-add some visuals on the left, like a profile picture, name, etc.
 */
 namespace SteamManager
 {
@@ -23,10 +28,8 @@ namespace SteamManager
         private string myAppFolder;
         private string fullPath;
         private string myResourcesFolder;
-        private string apiKey = "YOUR_API_KEY";
+        private string apiKey = "EDF2C147BDAEAD8453FB0FAA92E657E8";
         private Dictionary<string, List<string>> userGames = new Dictionary<string, List<string>>();
-
-
 
 
         public struct user
@@ -46,7 +49,6 @@ namespace SteamManager
             public bool isPasswordEncrypted { get; set; }
 
         }
-
 
         List<user> userlist = new List<user>();
 
@@ -80,7 +82,6 @@ namespace SteamManager
             public string SteamID64 { get; set; }
         }
 
-
         public void AddNewUser(string user, string pass)
         {
             var newUser = new user(user, pass, false, null);
@@ -97,9 +98,6 @@ namespace SteamManager
             MessageBox.Show("Benutzer erfolgreich hinzugefügt.");
 
         }
-
-
-
 
         private void LoadUserGames()
         {
@@ -176,8 +174,6 @@ namespace SteamManager
             }
         }
 
-
-
         private void LoadUsersGames(string steamid64)
         {
             string gamesFilePath = Path.Combine(myAppFolder, steamid64 + "Gi.json");
@@ -213,7 +209,6 @@ namespace SteamManager
             }
         }
 
-
         private void SaveUsers()
         {
             for (int i = 0; i < userlist.Count; i++)
@@ -229,8 +224,6 @@ namespace SteamManager
             string json = JsonConvert.SerializeObject(userlist, Formatting.Indented);
             File.WriteAllText(Path.Combine(myAppFolder, "sysus.json"), json);
         }
-
-
 
         public void LoadUsers()
         {
@@ -273,8 +266,6 @@ namespace SteamManager
             }
         }
 
-
-
         public MainForm()
         {
             InitializeComponent();
@@ -282,12 +273,7 @@ namespace SteamManager
             myAppFolder = Path.Combine(appLocalFolder, "SM");
             myResourcesFolder = Path.Combine(myAppFolder, "Resources");
             fullPath = Path.Combine(myAppFolder, "syspl");
-
-
         }
-
-
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -304,9 +290,6 @@ namespace SteamManager
 
             LoadUsers();
             LoadUserGames();
-
-
-
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -333,31 +316,39 @@ namespace SteamManager
         }
 
 
-
-
-
-
-
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
             string selectedUser = comboBox1.SelectedItem.ToString();
             lstvGames.Items.Clear();
             LoadUserGames();
-            if (userGames.ContainsKey(selectedUser))
+
+            string profileJsonPath = Path.Combine(myAppFolder, userlist[comboBox1.SelectedIndex].steamID64 + "Ai.json");
+            if (File.Exists(profileJsonPath))
             {
-                lstvGames.Items.Clear();
-                foreach (string game in userGames[selectedUser])
+                string jsonContent = File.ReadAllText(profileJsonPath);
+                dynamic profileData = JsonConvert.DeserializeObject<dynamic>(jsonContent)[0];
+
+
+                string profilePicUrl = profileData.ProfileIcon;
+                string profileLink = profileData.ProfileLink;
+
+                using (WebClient wc = new WebClient())
                 {
-                    lstvGames.Items.Add(game);
+                    byte[] bytes = wc.DownloadData(profilePicUrl);
+                    using (MemoryStream ms = new MemoryStream(bytes))
+                    {
+                        pictureBoxProfile.Image = Image.FromStream(ms);
+                    }
                 }
+
+                linkLabelProfile.Tag = profileLink;
+
+                linkLabelProfile.Text = profileData.Nickname;
+
+
             }
+
         }
 
 
@@ -393,6 +384,14 @@ namespace SteamManager
                     userlist.Remove(userToRemove);
                     SaveUsers();
 
+                }
+                if (File.Exists(Path.Combine(myAppFolder, userToRemove.steamID64 + "Gi.json")))
+                {
+                    File.Delete(Path.Combine(myAppFolder, userToRemove.steamID64 + "Gi.json"));
+                }
+                if (File.Exists(Path.Combine(myAppFolder, userToRemove.steamID64 + "Ai.json")))
+                {
+                    File.Delete(Path.Combine(myAppFolder, userToRemove.steamID64 + "Ai.json"));
                 }
                 lstvGames.Items.Clear();
 
@@ -587,11 +586,7 @@ namespace SteamManager
             }
         }
 
-        void Log(string message)
-        {
-            // Log the message to a file or output window
-            Debug.WriteLine(message); // For example
-        }
+
 
         private void feetchGamesButton_Click(object sender, EventArgs e)
         {
@@ -640,25 +635,6 @@ namespace SteamManager
             }
         }
 
-        private void lstGames_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lstvGames_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lstvGames_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-
-        }
 
         private void buttonStartGame_Click(object sender, EventArgs e)
         {
@@ -692,6 +668,23 @@ namespace SteamManager
 
             // Start Steam with the arguments
             Process.Start(startInfo);
+        }
+
+        private void linkLabelProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (linkLabelProfile.Tag is string url)
+            {
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+        }
+
+        private void txtSearchBox_TextChanged(object sender, EventArgs e)
+        {
+            //get search query from textbox
+            string searchQuery = txtSearchBox.Text.ToLower();
+
+            //filter list of games based on search query
+
         }
     }
 
